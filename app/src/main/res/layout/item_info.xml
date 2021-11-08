@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_corners_alpha_44"
+    android:backgroundTint="@color/white_alpha_44"
+    android:paddingTop="@dimen/margin_15"
+    android:paddingBottom="@dimen/margin_15"
+    android:paddingStart="@dimen/margin_20"
+    android:paddingEnd="@dimen/margin_20"
+    android:orientation="horizontal"
+    android:layout_marginBottom="@dimen/margin_10">
+    <com.magicrunes.magicrunes.ui.customView.RuneImageView
+        android:id="@+id/imageItemInfo"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/image_height_85"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/padding_12">
+        <TextView
+            android:id="@+id/titleItemInfo"
+            style="@style/item_info_title_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/textItemInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textColor="@color/white_alpha_CC"/>
+    </LinearLayout>
+</LinearLayout>

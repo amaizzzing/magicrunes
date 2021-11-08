@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_main"
+        android:icon="@drawable/main_icon_32"
+        android:title="@string/bottom_menu_main" />
+
+    <item
+        android:id="@+id/navigation_fortune"
+        android:icon="@drawable/fortune_icon_32"
+        android:title="@string/bottom_menu_fortune" />
+
+    <item
+        android:id="@+id/navigation_history"
+        android:icon="@drawable/history_icon_32"
+        android:title="@string/bottom_menu_history" />
+
+    <item
+        android:id="@+id/navigation_info"
+        android:icon="@drawable/info_icon_32"
+        android:title="@string/bottom_menu_info" />
+</menu>

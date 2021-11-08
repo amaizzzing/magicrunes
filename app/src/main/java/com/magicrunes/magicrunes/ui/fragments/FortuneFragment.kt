@@ -1,0 +1,163 @@
+package com.magicrunes.magicrunes.ui.fragments
+
+import android.os.Bundle
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
+import com.magicrunes.magicrunes.MagicRunesApp
+import com.magicrunes.magicrunes.R
+import com.magicrunes.magicrunes.databinding.FragmentFortuneBinding
+import com.magicrunes.magicrunes.di.factory.ViewModelFactory
+import com.magicrunes.magicrunes.ui.adapters.FortuneDiffUtilCallback
+import com.magicrunes.magicrunes.ui.adapters.FortuneFragmentAdapter
+import com.magicrunes.magicrunes.ui.adapters.presenters.fortune.IFortuneListPresenter
+import com.magicrunes.magicrunes.ui.models.lists.FortuneModel
+import com.magicrunes.magicrunes.ui.states.BaseState
+import com.magicrunes.magicrunes.ui.viewmodels.FortuneFragmentViewModel
+import java.util.*
+import javax.inject.Inject
+
+const val REQUEST_KEY = "fortuneStrategy"
+const val BUNDLE_KEY = "id_model"
+
+class FortuneFragment: BaseFragment<FragmentFortuneBinding, FortuneFragmentViewModel>() {
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var fortuneListPresenter: IFortuneListPresenter
+
+    var adapter: FortuneFragmentAdapter? = null
+
+    override fun getViewModelClass() = FortuneFragmentViewModel::class.java
+
+    override fun getViewBinding() = FragmentFortuneBinding.inflate(layoutInflater)
+
+    override fun setupViews() {
+        initRecyclerView()
+
+        fortuneListPresenter.modelClickListener = { position ->
+            setFragmentResult(
+                REQUEST_KEY,
+                bundleOf(BUNDLE_KEY to fortuneListPresenter.getList()[position].id)
+            )
+
+            findNavController().navigate(R.id.action_fortune_to_currentfortune)
+        }
+
+        fortuneListPresenter.favouriteClickListener = { position ->
+            changeFavouritePosition(position)
+        }
+    }
+
+    override fun observeData() {
+        super.observeData()
+        viewModel.data.observe(viewLifecycleOwner) {
+            it?.let {
+                renderData(it)
+            } ?: renderData(BaseState.Error(Error()))
+        }
+
+        viewModel.getFortuneList()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        MagicRunesApp.appComponent.inject(this)
+    }
+
+    override fun initViewModel() {
+        viewModel = ViewModelProvider(
+            this,
+            viewModelFactory
+        )[getViewModelClass()]
+    }
+
+    override fun renderData(data: BaseState) {
+        binding?.apply {
+            when(data) {
+                is BaseState.Success<*> -> {
+                    showProgress(
+                        pbFortuneFragment,
+                        rvFortune,
+                        false
+                    )
+
+                    (data.resultData as List<FortuneModel>).also {
+                        fortuneListPresenter.setList(it)
+                        adapter?.notifyDataSetChanged()
+                    }
+
+                }
+                is BaseState.Error -> {
+                    showProgress(
+                        pbFortuneFragment,
+                        rvFortune,
+                        false
+                    )
+
+                    Toast.makeText(requireContext(), "ERROR", Toast.LENGTH_LONG).show()
+                }
+                is BaseState.Loading -> {
+                    showProgress(
+                        pbFortuneFragment,
+                        rvFortune,
+                        true
+                    )
+                }
+            }
+        }
+    }
+
+    private fun initRecyclerView() {
+        binding?.apply {
+            rvFortune.layoutManager = GridLayoutManager(context, 2)
+            adapter = FortuneFragmentAdapter(fortuneListPresenter).apply {
+                MagicRunesApp.appComponent.inject(this)
+            }
+            rvFortune.adapter = adapter
+        }
+    }
+
+    private fun changeFavouritePosition(position: Int) {
+        val oldFortuneList = fortuneListPresenter.getList()
+        val newList = ArrayList(oldFortuneList.map { it.copy() })
+        val element = newList[position]
+
+        element.isFavourite = !element.isFavourite
+
+        viewModel.updateFavouriteFortune(element.id, element.isFavourite)
+
+        newList.removeAt(position)
+
+        var index = 0
+        oldFortuneList.find{ it.isFavourite == element.isFavourite && it.dateInMillis < element.dateInMillis}?.let {
+            index = oldFortuneList.indexOf(it)
+            newList.add(index, element)
+        } ?: run {
+            if (element.isFavourite) {
+                index = 0
+                newList.add(0, element)
+            } else {
+                index = newList.size
+                newList.add(newList.size, element)
+            }
+        }
+
+        diffUtilUpdates(newList)
+
+        binding?.rvFortune?.scrollToPosition(index)
+    }
+
+    private fun diffUtilUpdates(list: List<FortuneModel>) {
+        val fortuneDiffUtilCallback = FortuneDiffUtilCallback(fortuneListPresenter.getList(), list)
+        val diffResult = DiffUtil.calculateDiff(fortuneDiffUtilCallback, true)
+        fortuneListPresenter.setList(list)
+        diffResult.dispatchUpdatesTo(adapter!!)
+    }
+}

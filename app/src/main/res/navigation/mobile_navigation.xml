@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_main">
+
+    <fragment
+        android:id="@+id/navigation_main"
+        android:name="com.magicrunes.magicrunes.ui.fragments.MainFragment"
+        android:label="@string/title_main_fragment"
+        tools:layout="@layout/fragment_main" />
+
+    <fragment
+        android:id="@+id/navigation_fortune"
+        android:name="com.magicrunes.magicrunes.ui.fragments.FortuneFragment"
+        android:label="@string/title_fortune_fragment"
+        tools:layout="@layout/fragment_fortune">
+        <action
+            android:id="@+id/action_fortune_to_currentfortune"
+            app:destination="@id/current_fortune"
+            app:enterAnim="@anim/fade_in_anim"
+            app:exitAnim="@anim/fade_out"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/current_fortune"
+        android:name="com.magicrunes.magicrunes.ui.fragments.CurrentFortuneFragment"
+        android:label="Текущий расклад"
+        tools:layout="@layout/fragment_current_fortune">
+        <action
+            android:id="@+id/action_currentfortune_to_fortunedescription"
+            app:destination="@+id/fortune_description"
+            app:enterAnim="@anim/fade_in_anim"
+            app:exitAnim="@anim/fade_out"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.magicrunes.magicrunes.ui.fragments.HistoryFragment"
+        android:label="@string/title_history_fragment"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_history_to_rune_description"
+            app:destination="@+id/navigation_rune_description"
+            app:enterAnim="@anim/fade_in_anim"
+            app:exitAnim="@anim/fade_out"/>
+        <action
+            android:id="@+id/action_history_to_fortune_description"
+            app:destination="@+id/fortune_description"
+            app:enterAnim="@anim/fade_in_anim"
+            app:exitAnim="@anim/fade_out"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_rune_description"
+        android:name="com.magicrunes.magicrunes.ui.fragments.MainFragment"
+        android:label="@string/title_main_fragment"
+        tools:layout="@layout/fragment_main" />
+
+    <fragment
+        android:id="@+id/fortune_description"
+        android:name="com.magicrunes.magicrunes.ui.fragments.FortuneDescriptionFragment"
+        android:label="Описание расклада"
+        tools:layout="@layout/fragment_fortune_description"/>
+
+    <fragment
+        android:id="@+id/navigation_info"
+        android:name="com.magicrunes.magicrunes.ui.fragments.InfoFragment"
+        android:label="@string/title_info_fragment"
+        tools:layout="@layout/fragment_info" >
+        <action
+            android:id="@+id/action_info_to_info_description"
+            app:destination="@+id/info_description"
+            app:enterAnim="@anim/fade_in_anim"
+            app:exitAnim="@anim/fade_out"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/info_description"
+        android:name="com.magicrunes.magicrunes.ui.fragments.InfoDescriptionFragment"
+        android:label="@string/title_info_fragment"
+        tools:layout="@layout/fragment_fortune_description" />
+</navigation>

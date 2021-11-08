@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">MagicRunes</string>
+    <string name="bottom_menu_main">Руна дня</string>
+    <string name="bottom_menu_fortune">Расклады</string>
+    <string name="bottom_menu_history">История</string>
+    <string name="bottom_menu_info">Информация</string>
+    <string name="dialog_to_the_rune_comment">Напишите коментарий…</string>
+    <string name="dialog_to_the_rune_rune_of_day">Руна дня: Ансус</string>
+    <string name="dialog_to_the_rune_date">28.01.21</string>
+    <string name="dialog_to_the_rune_Cancel">ОТМЕНА</string>
+    <string name="dialog_to_the_rune_OK">ОК</string>
+    <string name="dialog_to_the_rune_change">ИЗМЕНИТЬ</string>
+
+    <string name="title_main_fragment">Руна дня</string>
+    <string name="title_history_fragment">История</string>
+    <string name="title_fortune_fragment">Расклады</string>
+    <string name="title_info_fragment">Информация</string>
+    <string name="fab_main_description">fab_main_description</string>
+    <string name="chip_rune_title">Руны</string>
+    <string name="chip_rune_comb">Комбинации</string>
+    <string name="chip_rune_day_title">Руна дня</string>
+    <string name="chip_fortune">Расклады</string>
+    <string name="chip_all_history">Вся история</string>
+    <string name="main_description">Общее описание</string>
+    <string name="av_state">Прямое положение</string>
+    <string name="rev_state">Перевернутое положение</string>
+
+    <string name="show_start_text">Задайте вопрос</string>
+    <string name="create_fortune">Формирование расклада…</string>
+    <string name="show_description">Посмотреть описание</string>
+    <string name="creating_fortune">Идет формирование расклада</string>
+
+    <string name="add_widget">Add widget</string>
+    <string name="widget_text">Ваша руна дня:</string>
+    <string name="snackbar_widget_text">Вы можете установить виджет на рабочий стол</string>
+</resources>

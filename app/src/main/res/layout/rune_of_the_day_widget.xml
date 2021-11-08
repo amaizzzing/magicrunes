@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_widget"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/round_corners_alpha_44"
+    android:padding="@dimen/widget_margin"
+    android:theme="@style/ThemeOverlay.MagicRunes.AppWidgetContainer"
+    android:orientation="horizontal"
+    android:weightSum="1">
+    <ImageView
+        android:id="@+id/image_widget"
+        android:layout_gravity="center"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ansuz"
+        android:background="@color/invisible"
+        android:scaleType="centerInside"
+        android:layout_weight="0.35"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.65"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:weightSum="1">
+        <TextView
+            android:id="@+id/appwidget_text"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/invisible"
+            android:text="Ваша руня дня:"
+            android:textColor="?attr/appWidgetTextColor"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:id="@+id/rune_name_widget"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/invisible"
+            android:textColor="?attr/appWidgetTextColor"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:layout_weight="0.5"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_25"
+    >
+
+    <TextView
+        android:id="@+id/textRune"
+        style="@style/dialog_title_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/dialog_to_the_rune_rune_of_day"
+        android:text="@string/dialog_to_the_rune_rune_of_day"
+        app:layout_constraintBottom_toBottomOf="@+id/textDate"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingBottom="@dimen/padding_botton_21dp"/>
+
+    <TextView
+        android:id="@+id/textDate"
+        style="@style/dialog_title_text_style"
+        android:text="@string/dialog_to_the_rune_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="@dimen/padding_botton_21dp"/>
+
+    <EditText
+        android:id="@+id/editComment"
+        style="@style/dialog_edit_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/dialog_to_the_rune_comment"
+        app:layout_constraintBottom_toTopOf="@+id/cancelButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDate" />
+
+    <TextView
+        android:id="@+id/cancelButton"
+        style="@style/dialog_button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:paddingTop="@dimen/padding_top_20dp"
+        android:text="@string/dialog_to_the_rune_Cancel"
+        app:layout_constraintEnd_toStartOf="@+id/okButton"
+        app:layout_constraintTop_toTopOf="@+id/okButton" />
+
+    <TextView
+        android:id="@+id/okButton"
+        style="@style/dialog_button_style"
+        android:paddingTop="@dimen/padding_top_20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_to_the_rune_OK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/round_corners_alpha_44"
+    android:backgroundTint="@color/white_alpha_44"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/margin_5"
+    android:paddingBottom="@dimen/margin_5"
+    android:layout_marginBottom="@dimen/margin_10">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/margin_5" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_15" />
+    <com.magicrunes.magicrunes.ui.customView.RuneImageView
+        android:id="@+id/imageHistoryRune"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginBottom="@dimen/margin_5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"/>
+    <TextView
+        android:id="@+id/titleHistoryRune"
+        style="@style/item_info_title_text_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTop"
+        app:layout_constraintBottom_toTopOf="@+id/textHistoryRune"
+        app:layout_constraintStart_toEndOf="@+id/imageHistoryRune"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"/>
+    <TextView
+        android:id="@+id/textHistoryRune"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:text=""
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:textColor="@color/white_alpha_CC"
+        android:layout_marginStart="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="@+id/guidelineBottom"
+        app:layout_constraintTop_toBottomOf="@+id/titleHistoryRune"
+        app:layout_constraintStart_toEndOf="@+id/imageHistoryRune"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_10" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="@dimen/margin_25" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="100dp" />
+    <ImageView
+        android:id="@+id/commentHistoryItem"
+        android:layout_width="@dimen/history_comment_size"
+        android:layout_height="@dimen/history_comment_size"
+        android:layout_marginEnd="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guidelineComment"/>
+    <TextView
+        android:id="@+id/dateHistoryItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_2"
+        android:layout_marginEnd="2dp"
+        android:textColor="@color/white_alpha_CC"
+        app:layout_constraintTop_toTopOf="@id/guidelineBottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guidelineComment"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/rune_of_the_day_widget"
+    android:initialLayout="@layout/rune_of_the_day_widget"
+    android:minWidth="180dp"
+    android:minHeight="40dp"
+    android:previewImage="@drawable/fortune_icon_32"
+    android:resizeMode="horizontal"
+    android:updatePeriodMillis="21600000"
+    android:widgetCategory="home_screen"></appwidget-provider>
