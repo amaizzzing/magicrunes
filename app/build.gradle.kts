@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -16,6 +18,11 @@ android {
         versionCode = Dependencies.Android.versionCode
         versionName = Dependencies.Android.versionName
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
+        val localProperties = Properties()
+        localProperties.load(rootProject.file("local.properties").inputStream())
+        val googleRequestIdToken = localProperties["googleRequestIdToken"].toString()
+        resValue("string", "googleRequestIdToken", googleRequestIdToken)
     }
 
     buildTypes {
@@ -66,6 +73,7 @@ dependencies {
     implementation(Dependencies.Worker.workMultiprocess)
     implementation(Dependencies.Worker.workRuntimeKtx)
     implementation(Dependencies.Firebase.firebaseAuth)
+    implementation("com.google.android.gms:play-services-auth:19.0.0")
 
     kapt(Dependencies.Room.roomCompiler)
     kapt(Dependencies.Dagger.daggerCompiler)

@@ -10,6 +10,7 @@ import com.magicrunes.magicrunes.ui.adapters.InfoFragmentAdapter
 import com.magicrunes.magicrunes.ui.adapters.presenters.fortune.FortuneListPresenter
 import com.magicrunes.magicrunes.ui.adapters.presenters.history.HistoryListPresenter
 import com.magicrunes.magicrunes.ui.dialogs.AddCommentDialogFragment
+import com.magicrunes.magicrunes.ui.dialogs.SignInDialog
 import com.magicrunes.magicrunes.ui.fragments.*
 import com.magicrunes.magicrunes.ui.widget.RuneOfTheDayWidget
 import dagger.BindsInstance
@@ -53,6 +54,7 @@ interface AppComponent: AndroidInjector<MagicRunesApp> {
     fun inject(fortuneDescriptionFragment: FortuneDescriptionFragment)
     fun inject(infoDescriptionFragment: InfoDescriptionFragment)
     fun inject(addCommentDialogFragment: AddCommentDialogFragment)
+    fun inject(signInDialog: SignInDialog)
 
     fun inject(infoFragmentAdapter: InfoFragmentAdapter)
     fun inject(historyFragmentAdapter: HistoryFragmentAdapter)

@@ -7,6 +7,8 @@ import com.magicrunes.magicrunes.data.services.database.db.MagicRunesDB
 import com.magicrunes.magicrunes.data.services.image.GlideImageViewLoader
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
 import com.magicrunes.magicrunes.data.services.image.ImageService
+import com.magicrunes.magicrunes.data.services.network.GoogleService
+import com.magicrunes.magicrunes.data.services.network.IGoogleService
 import com.magicrunes.magicrunes.data.services.resource.IResourceService
 import com.magicrunes.magicrunes.data.services.resource.ResourceService
 import com.magicrunes.magicrunes.ui.fragments.currentfortunestrategies.FortuneFactory
@@ -43,4 +45,8 @@ class ServicesModule {
     @Singleton
     @Provides
     fun resourceService(app: MagicRunesApp): IResourceService = ResourceService(app)
+
+    @Singleton
+    @Provides
+    fun googleService(app: MagicRunesApp): IGoogleService = GoogleService(app)
 }

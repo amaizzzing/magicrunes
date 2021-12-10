@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewTreeObserver
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -15,19 +16,29 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.magicrunes.magicrunes.MagicRunesApp
 import com.magicrunes.magicrunes.R
+import com.magicrunes.magicrunes.data.services.image.IImageLoader
+import com.magicrunes.magicrunes.data.services.network.IGoogleService
 import com.magicrunes.magicrunes.data.services.resource.IResourceService
 import com.magicrunes.magicrunes.databinding.ActivityMainBinding
+import com.magicrunes.magicrunes.ui.dialogs.SignInDialog
 import com.magicrunes.magicrunes.ui.widget.RuneOfTheDayWidget
 import javax.inject.Inject
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SignInDialog.OnGoogleSign {
     @Inject
     lateinit var resourceService: IResourceService
+
+    @Inject
+    lateinit var imageViewLoader: IImageLoader<ImageView>
+
+    @Inject
+    lateinit var googleService: IGoogleService
 
     lateinit var binding: ActivityMainBinding
 
     var navController: NavController? = null
+
+    private var toolbarMenu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +57,17 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainToolbar.title = getString(R.string.title_main_fragment)
 
-        setSupportActionBar(binding.mainToolbar);
+        setSupportActionBar(binding.mainToolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         checkWidgets()
+
+        SignInDialog.onGoogleSignImpl = this
+    }
+
+    private fun signIn() {
+        SignInDialog.newInstance().show(supportFragmentManager, "SignInDialog")
     }
 
     private fun checkWidgets() {
@@ -122,14 +139,35 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed();
         }
         if (item.itemId == R.id.account_image) {
-            println("OLOLO ACCOUNT")
+            signIn()
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu);
-        return true;
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+
+        toolbarMenu = menu
+
+        loadAvatarImageToToolbar()
+
+        return true
+    }
+
+    private fun loadAvatarImageToToolbar() {
+        toolbarMenu?.findItem(R.id.account_image)?.let { accountItem ->
+            googleService.getLastSignedInAccount()?.let { googleAccount ->
+                imageViewLoader.loadInto(googleAccount.photoUrl.toString(), accountItem, this, resources)
+            } ?: imageViewLoader.loadInto(R.drawable.account_image, accountItem, this, resources)
+        }
+    }
+
+    override fun onGoogleSignIn() {
+        loadAvatarImageToToolbar()
+    }
+
+    override fun onGoogleSignOut() {
+        loadAvatarImageToToolbar()
     }
 }
