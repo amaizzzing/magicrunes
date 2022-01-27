@@ -66,6 +66,7 @@ dependencies {
     implementation(Dependencies.LifeCycle.lifeCycleExtensions)
     implementation(Dependencies.Coroutines.coroutinesAndroid)
     implementation(Dependencies.Coroutines.coroutinesCore)
+    implementation(Dependencies.Coroutines.coroutinesPlayServices)
     implementation(Dependencies.AndroidNavigation.navigationFragment)
     implementation(Dependencies.AndroidNavigation.navigationUi)
     implementation(Dependencies.JodaTime.jodaTime)
@@ -73,7 +74,8 @@ dependencies {
     implementation(Dependencies.Worker.workMultiprocess)
     implementation(Dependencies.Worker.workRuntimeKtx)
     implementation(Dependencies.Firebase.firebaseAuth)
-    implementation("com.google.android.gms:play-services-auth:19.0.0")
+    implementation("com.google.android.gms:play-services-auth:20.0.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.0.0")
 
     kapt(Dependencies.Room.roomCompiler)
     kapt(Dependencies.Dagger.daggerCompiler)

@@ -23,4 +23,5 @@ class HistoryRuneDbEntity(): BaseRoom() {
     var idRune: Long = 0
     var comment: String = ""
     var state: Int = 0
+    var syncState: Int = 0
 }

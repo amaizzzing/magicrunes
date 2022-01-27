@@ -132,22 +132,22 @@ class HistoryFragment:
             commentClickListener = { historyView ->
                 commentClickPosition = historyView.pos
                 historyListPresenter.getList()[historyView.pos].apply {
-                    showAddCommentDialog(id)
+                    showAddCommentDialog(dateInMillis)
                 }
             }
         }
     }
 
-    private fun showAddCommentDialog(idHistory: Long) {
+    private fun showAddCommentDialog(historyDate: Long) {
         AddCommentDialogFragment
-            .newInstance(idHistory)
+            .newInstance(historyDate)
             .show(childFragmentManager, COMMENT_DIALOG_TAG)
     }
 
     private fun showFortuneDescriptionFragment(runePos: Int) {
         setFragmentResult(
             DESCRIPTION_REQUEST_KEY,
-            bundleOf(DESCRIPTION_BUNDLE_KEY to historyListPresenter.getList()[runePos].id)
+            bundleOf(DESCRIPTION_BUNDLE_KEY to historyListPresenter.getList()[runePos].dateInMillis)
         )
 
         findNavController().navigate(R.id.action_history_to_fortune_description)
@@ -156,7 +156,7 @@ class HistoryFragment:
     private fun showRuneDescriptionFragment(runePos: Int) {
         setFragmentResult(
             HISTORY_RUNE_REQUEST_KEY,
-            bundleOf(HISTORY_RUNE_BUNDLE to historyListPresenter.getList()[runePos].id)
+            bundleOf(HISTORY_RUNE_BUNDLE to historyListPresenter.getList()[runePos].dateInMillis)
         )
 
         findNavController().navigate(R.id.action_history_to_rune_description)

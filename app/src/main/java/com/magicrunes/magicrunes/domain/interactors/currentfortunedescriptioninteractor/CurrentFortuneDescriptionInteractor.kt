@@ -1,23 +1,23 @@
 package com.magicrunes.magicrunes.domain.interactors.currentfortunedescriptioninteractor
 
-import com.magicrunes.magicrunes.data.repositories.fortuneHistoryRunes.IFortuneHistoryRunesRepository
-import com.magicrunes.magicrunes.data.repositories.historyFortune.IHistoryFortuneRepository
+import com.magicrunes.magicrunes.data.repositories.fortuneHistoryRunes.FortuneHistoryRunesFactory
+import com.magicrunes.magicrunes.data.repositories.historyFortune.HistoryFortuneRepositoryFactory
 import com.magicrunes.magicrunes.data.repositories.rune.IRuneRepository
 import com.magicrunes.magicrunes.data.repositories.runeDescription.IRuneDescriptionRepository
 import com.magicrunes.magicrunes.ui.models.CurrentFortuneDescriptionModel
 import com.magicrunes.magicrunes.utils.toBoolean
 
 class CurrentFortuneDescriptionInteractor(
-    private val fortuneHistoryRunesRepository: IFortuneHistoryRunesRepository,
-    private val historyFortuneRepository: IHistoryFortuneRepository,
+    private val fortuneHistoryRunesFactory: FortuneHistoryRunesFactory,
+    private val historyFortuneRepositoryFactory: HistoryFortuneRepositoryFactory,
     private val runeRepository: IRuneRepository,
     private val runeDescriptionRepository: IRuneDescriptionRepository
 ): ICurrentFortuneDescriptionInteractor {
-    override suspend fun getCurrentFortuneRunes(idHistory: Long): List<CurrentFortuneDescriptionModel> {
+    override suspend fun getCurrentFortuneRunes(historyDate: Long): List<CurrentFortuneDescriptionModel> {
         val resultList = mutableListOf<CurrentFortuneDescriptionModel>()
 
-        val idFortune = historyFortuneRepository.getFortuneHistoryById(idHistory)?.idFortune
-        fortuneHistoryRunesRepository.getRunesByIdHistory(idHistory).forEach { runeInFortune ->
+        val idFortune = historyFortuneRepositoryFactory.getFortuneRepository().getFortuneHistoryByDate(historyDate)?.idFortune
+        fortuneHistoryRunesFactory.getFortuneRepository().getRunesByHistoryDate(historyDate).forEach { runeInFortune -> //idHistory == historyDate
             val rune = runeRepository.getRuneById(runeInFortune.idRune)
             val runeDescription = runeDescriptionRepository.getRuneById(runeInFortune.idRune)
 
@@ -25,7 +25,7 @@ class CurrentFortuneDescriptionInteractor(
                 resultList.add(
                     CurrentFortuneDescriptionModel(
                         idRune = rune.id,
-                        idHistory = idHistory,
+                        idHistory = historyDate,
                         idFortune = idFortune ?: 0L,
                         name = rune.name,
                         description = rune.mainDescription,

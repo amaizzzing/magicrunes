@@ -42,7 +42,8 @@ private const val googleSrvcs = "4.3.8"
 private const val lifecycle_version = "2.4.0-alpha03"
 
 //coroutines
-private const val coroutines_android_version = "1.5.1"
+private const val coroutines_android_version = "1.5.2"
+private const val coroutines_play_services_version = "1.3.7"
 
 //navigationAndroid
 private const val navigation_fragment_version = "2.3.5"
@@ -119,6 +120,7 @@ object Dependencies{
     object Coroutines {
         const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android_version"
         const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version"
+        const val coroutinesPlayServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_play_services_version"
     }
     object AndroidNavigation {
         const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$navigation_fragment_version"

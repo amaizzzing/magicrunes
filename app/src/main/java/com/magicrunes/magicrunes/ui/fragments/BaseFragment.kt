@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.magicrunes.magicrunes.MagicRunesApp
+import com.magicrunes.magicrunes.data.services.network.IGoogleService
 import com.magicrunes.magicrunes.ui.states.BaseState
+import com.magicrunes.magicrunes.ui.viewmodels.HistoryFragmentViewModel
 import com.magicrunes.magicrunes.utils.setGone
 import com.magicrunes.magicrunes.utils.setVisible
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseFragment<VBinding : ViewBinding?, VViewModel : ViewModel>: Fragment(), CoroutineScope {
@@ -52,6 +54,25 @@ abstract class BaseFragment<VBinding : ViewBinding?, VViewModel : ViewModel>: Fr
         super.onViewCreated(view, savedInstanceState)
         observeData()
         setupViews()
+
+        if (this !is FortuneDescriptionFragment) {
+            collectJob = launch {
+                collector.collect {
+                    observeData()
+                }
+            }
+            collectJob?.start()
+        }
+    }
+
+    val googleService = MagicRunesApp.appComponent.getGoogleService()
+    val collector = googleService.googleStateFlow
+    var collectJob: Job? = null
+
+    override fun onStop() {
+        super.onStop()
+        collectJob?.cancel()
+        collectJob = null
     }
 
     open fun setupViews() {}

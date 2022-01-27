@@ -21,4 +21,5 @@ class HistoryFortuneDbEntity: BaseRoom() {
     var date: Long = 0
     var comment: String = ""
     var fortuneDescription: String = ""
+    var syncState: Int = 0
 }

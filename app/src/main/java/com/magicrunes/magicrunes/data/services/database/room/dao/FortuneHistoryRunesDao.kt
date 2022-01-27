@@ -1,4 +1,4 @@
-package com.magicrunes.magicrunes.data.services.database.dao
+package com.magicrunes.magicrunes.data.services.database.room.dao
 
 import androidx.room.Dao
 import androidx.room.Query
@@ -12,6 +12,6 @@ abstract class FortuneHistoryRunesDao: BaseDao<FortuneHistoryRunesDbEntity>() {
     @Query("SELECT * FROM FortuneHistoryRunesDbEntity")
     abstract suspend fun getAll(): List<FortuneHistoryRunesDbEntity>
 
-    @Query("SELECT * FROM FortuneHistoryRunesDbEntity WHERE idHistory = :idHistory" )
-    abstract suspend fun getRunesByIdHistory(idHistory: Long): List<FortuneHistoryRunesDbEntity>
+    @Query("SELECT * FROM FortuneHistoryRunesDbEntity WHERE idHistory = :historyDate" ) // idHistory == historyDate
+    abstract suspend fun getRunesByHistoryDate(historyDate: Long): List<FortuneHistoryRunesDbEntity>
 }

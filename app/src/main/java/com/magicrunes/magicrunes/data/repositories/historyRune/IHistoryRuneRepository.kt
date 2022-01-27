@@ -5,13 +5,19 @@ import com.magicrunes.magicrunes.data.entities.cache.HistoryRuneDbEntity
 interface IHistoryRuneRepository {
     suspend fun insert(historyRuneDbEntity: HistoryRuneDbEntity)
 
-    suspend fun getRuneById(id: Long): HistoryRuneDbEntity?
-
-    suspend fun getRuneByHistoryId(historyId: Long): HistoryRuneDbEntity?
+    suspend fun getRuneByHistoryDate(historyDate: Long): HistoryRuneDbEntity?
 
     suspend fun getLastRune(): HistoryRuneDbEntity?
 
     suspend fun getAllHistory(): List<HistoryRuneDbEntity>
 
-    suspend fun updateComment(idHistory: Long, comment: String)
+    suspend fun updateComment(historyDate: Long, comment: String)
+
+    suspend fun updateHistoryRuneByDate(
+        idRune: Long,
+        comment: String,
+        state: Int,
+        syncState: Int,
+        historyDate: Long
+    )
 }

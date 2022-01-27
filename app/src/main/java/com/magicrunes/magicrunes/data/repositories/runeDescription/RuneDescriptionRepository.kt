@@ -1,7 +1,7 @@
 package com.magicrunes.magicrunes.data.repositories.runeDescription
 
 import com.magicrunes.magicrunes.data.entities.cache.RuneDescriptionDbEntity
-import com.magicrunes.magicrunes.data.services.database.db.MagicRunesDB
+import com.magicrunes.magicrunes.data.services.database.room.db.MagicRunesDB
 
 class RuneDescriptionRepository(
     private val dbService: MagicRunesDB

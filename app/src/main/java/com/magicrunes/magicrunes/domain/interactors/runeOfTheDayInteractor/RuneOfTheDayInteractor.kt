@@ -2,7 +2,7 @@ package com.magicrunes.magicrunes.domain.interactors.runeOfTheDayInteractor
 
 import com.magicrunes.magicrunes.data.entities.cache.HistoryRuneDbEntity
 import com.magicrunes.magicrunes.data.entities.cache.RuneDbEntity
-import com.magicrunes.magicrunes.data.repositories.historyRune.IHistoryRuneRepository
+import com.magicrunes.magicrunes.data.repositories.historyRune.HistoryRuneRepositoryFactory
 import com.magicrunes.magicrunes.data.repositories.rune.IRuneRepository
 import com.magicrunes.magicrunes.data.repositories.runeDescription.IRuneDescriptionRepository
 import com.magicrunes.magicrunes.ui.models.RuneOfTheDayModel
@@ -14,11 +14,11 @@ import org.joda.time.DateTime
 
 class RuneOfTheDayInteractor(
     private val runeRepository: IRuneRepository,
-    private val historyRuneRepository: IHistoryRuneRepository,
+    private val historyRuneRepositoryFactory: HistoryRuneRepositoryFactory,
     private val runeDescriptionRepository: IRuneDescriptionRepository
 ): IRuneOfTheDayInteractor {
-    override suspend fun createRuneOfTheDay(): BaseState =
-        historyRuneRepository.getLastRune()?.let { lastHistory ->
+    override suspend fun createRuneOfTheDay(): BaseState {
+        return historyRuneRepositoryFactory.getHistoryRuneRepository().getLastRune()?.let { lastHistory ->
             if (DateUtils.isTheSameDay(DateTime(lastHistory.date), DateTime())) {
                 runeRepository.getRuneById(lastHistory.idRune)?.let { runeOfTheDay ->
                     createSuccessState(runeOfTheDay)
@@ -27,11 +27,13 @@ class RuneOfTheDayInteractor(
                 getRandomRuneOfTheDay()
             }
         } ?: getRandomRuneOfTheDay()
+    }
+
 
     override suspend fun getRandomRuneOfTheDay(): BaseState =
         runeRepository.getRandomRune()?.let { randomRune ->
             val runeState = isNeedReverse(randomRune)
-            historyRuneRepository.insert(
+            historyRuneRepositoryFactory.getHistoryRuneRepository().insert(
                 HistoryRuneDbEntity().apply {
                     date = DateTime().millis
                     idRune = randomRune.id
@@ -63,8 +65,8 @@ class RuneOfTheDayInteractor(
         )
     }
 
-    override suspend fun getRuneFromHistory(historyId: Long): BaseState {
-        val historyRune = historyRuneRepository.getRuneByHistoryId(historyId)
+    override suspend fun getRuneFromHistory(historyDate: Long): BaseState {
+        val historyRune = historyRuneRepositoryFactory.getHistoryRuneRepository().getRuneByHistoryDate(historyDate)
         return historyRune?.let {
             val rune = runeRepository.getRuneById(it.idRune)
             rune?.let {
@@ -79,7 +81,7 @@ class RuneOfTheDayInteractor(
     }
 
     override suspend fun isNeedReverse(rune: RuneDbEntity): Boolean {
-        val runeInHistory = historyRuneRepository.getLastRune()
+        val runeInHistory = historyRuneRepositoryFactory.getHistoryRuneRepository().getLastRune()
         val runeDescription = runeDescriptionRepository.getRuneById(rune.id)
 
         return if (rune.id != runeInHistory?.idRune) {
@@ -97,7 +99,7 @@ class RuneOfTheDayInteractor(
     }
 
     override suspend fun isTodayRune(): Boolean =
-        historyRuneRepository.getLastRune()?.let { lastHistory ->
+        historyRuneRepositoryFactory.getHistoryRuneRepository().getLastRune()?.let { lastHistory ->
              (DateUtils.isTheSameDay(DateTime(lastHistory.date), DateTime()))
         } ?: false
 }

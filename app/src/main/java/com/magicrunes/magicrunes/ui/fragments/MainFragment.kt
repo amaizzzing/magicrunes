@@ -59,7 +59,7 @@ class MainFragment:
 
     private var currentRuneOfTheDayId: Long = -1L
 
-    private var historyId: Long = -1L
+    private var historyDate: Long = -1L
 
     override fun getViewModelClass() = MainFragmentViewModel::class.java
 
@@ -242,8 +242,8 @@ class MainFragment:
         }
 
         setFragmentResultListener(HISTORY_RUNE_REQUEST_KEY) { _, bundle ->
-            historyId = bundle.getLong(HISTORY_RUNE_BUNDLE)
-            viewModel.getRuneDescription(historyId)
+            historyDate = bundle.getLong(HISTORY_RUNE_BUNDLE)
+            viewModel.getRuneDescription(historyDate)
             (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
         viewModel.getRuneOfTheDay()

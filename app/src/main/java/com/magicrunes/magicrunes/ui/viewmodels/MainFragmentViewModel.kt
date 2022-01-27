@@ -26,12 +26,12 @@ class MainFragmentViewModel @Inject constructor(
         }
     }
 
-    fun getRuneDescription(historyId: Long) = viewModelScope.launch {
+    fun getRuneDescription(historyDate: Long) = viewModelScope.launch {
         cancelShowJob(this.coroutineContext.job)
 
         setData(BaseState.Loading)
         withContext(bgDispatcher) {
-            val resultRune = runeOfTheDayInteractor.getRuneFromHistory(historyId)
+            val resultRune = runeOfTheDayInteractor.getRuneFromHistory(historyDate)
             withContext(viewModelScope.coroutineContext) {
                 setData(resultRune)
             }

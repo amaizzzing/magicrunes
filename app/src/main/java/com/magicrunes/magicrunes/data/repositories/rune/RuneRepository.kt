@@ -1,7 +1,7 @@
 package com.magicrunes.magicrunes.data.repositories.rune
 
 import com.magicrunes.magicrunes.data.entities.cache.RuneDbEntity
-import com.magicrunes.magicrunes.data.services.database.db.MagicRunesDB
+import com.magicrunes.magicrunes.data.services.database.room.db.MagicRunesDB
 
 class RuneRepository(private val dbService: MagicRunesDB): IRuneRepository {
     override suspend fun getRuneById(id: Long): RuneDbEntity? =

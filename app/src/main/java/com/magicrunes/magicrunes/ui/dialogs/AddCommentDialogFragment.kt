@@ -18,7 +18,7 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-const val ID_HISTORY = "ID_HISTORY"
+const val HISTORY_DATE = "HISTORY_DATE"
 
 class AddCommentDialogFragment: DialogFragment(), CoroutineScope{
     override val coroutineContext: CoroutineContext =
@@ -29,7 +29,7 @@ class AddCommentDialogFragment: DialogFragment(), CoroutineScope{
 
     private var currentCommentModel: CommentDialogModel? = null
 
-    private var idHistory: Long? = null
+    private var historyDate: Long? = null
 
     interface OnCloseClick {
         fun onCloseAddCommentDialog(newComment: String)
@@ -40,7 +40,7 @@ class AddCommentDialogFragment: DialogFragment(), CoroutineScope{
 
         MagicRunesApp.appComponent.inject(this)
 
-        idHistory = arguments?.getLong(ID_HISTORY)
+        historyDate = arguments?.getLong(HISTORY_DATE)
     }
 
     override fun onCreateView(
@@ -68,7 +68,7 @@ class AddCommentDialogFragment: DialogFragment(), CoroutineScope{
                 currentCommentModel?.let { model ->
                     if (model.comment != commentText.text.toString()){
                         commentDialogInteractor.saveComment(
-                            model.idHistory,
+                            model.dateInMillis,
                             commentText.text.toString()
                         )
                         model.comment = commentText.text.toString()
@@ -94,7 +94,7 @@ class AddCommentDialogFragment: DialogFragment(), CoroutineScope{
         }
 
         launch(coroutineContext) {
-            commentDialogInteractor.getDialogComment(idHistory)?.let { dialogCommentModel ->
+            commentDialogInteractor.getDialogComment(historyDate)?.let { dialogCommentModel ->
                 currentCommentModel = dialogCommentModel
 
                 withContext(Dispatchers.Main) {
@@ -136,7 +136,7 @@ class AddCommentDialogFragment: DialogFragment(), CoroutineScope{
         fun newInstance(idHistory: Long? = null): AddCommentDialogFragment =
             AddCommentDialogFragment().apply {
                 idHistory?.let {
-                    this.arguments = bundleOf(ID_HISTORY to it)
+                    this.arguments = bundleOf(HISTORY_DATE to it)
                 }
             }
 

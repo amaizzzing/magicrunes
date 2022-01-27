@@ -18,15 +18,26 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.magicrunes.magicrunes.MagicRunesApp
 import com.magicrunes.magicrunes.R
+import com.magicrunes.magicrunes.data.entities.cache.UserInfoDbEntity
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
+import com.magicrunes.magicrunes.data.services.network.GoogleService
 import com.magicrunes.magicrunes.data.services.network.IGoogleService
+import com.magicrunes.magicrunes.domain.interactors.signindialoginteractor.ISignInDialogInteractor
+import kotlinx.coroutines.*
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
-class SignInDialog: DialogFragment() {
+class SignInDialog: DialogFragment(), CoroutineScope {
     interface OnGoogleSign {
         fun onGoogleSignIn()
         fun onGoogleSignOut()
     }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + SupervisorJob()
+
+    @Inject
+    lateinit var signInDialogInteractor: ISignInDialogInteractor
 
     @Inject
     lateinit var imageViewLoader: IImageLoader<ImageView>
@@ -40,6 +51,22 @@ class SignInDialog: DialogFragment() {
     lateinit var textDisplayName: TextView
     lateinit var accountAvatar: ImageView
 
+    init {
+        GoogleService.signInCallback = { idGoogle: String, idFirestore: String, name: String ->
+            launch(MagicRunesApp.backgroundTaskDispatcher) {
+                signInDialogInteractor.writeGoogleUserToCache(
+                    idGoogle,
+                    idFirestore,
+                    name
+                )
+
+                signInDialogInteractor.syncLocaleAndFirestoreLastRune()
+
+                googleService.googleStateFlow.value = true
+            }
+        }
+    }
+
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
@@ -49,7 +76,12 @@ class SignInDialog: DialogFragment() {
             try {
                 val account = task.getResult(ApiException::class.java)!!
 
-                googleService.setSignedInAccount(account)
+                launch(MagicRunesApp.backgroundTaskDispatcher) {
+                    with(googleService) {
+                        setSignedInAccount(account)
+                        firestoreSignIn(account)
+                    }
+                }
 
                 showAccountData(account)
             } catch (e: ApiException) {
@@ -65,12 +97,11 @@ class SignInDialog: DialogFragment() {
     }
 
     private fun showAccountData(googleAccount: GoogleSignInAccount?) {
-        googleAccount.let { gAccount ->
+        googleAccount?.let { gAccount ->
             textSignInButton.text = "LogOut"
-            imageViewLoader.loadInto(gAccount?.photoUrl.toString(), accountAvatar, circleCrop = true)
-            textEmail.text = gAccount?.email
-            textDisplayName.text = gAccount?.displayName
-            onGoogleSignImpl?.onGoogleSignIn()
+            imageViewLoader.loadInto(gAccount.photoUrl.toString(), accountAvatar, circleCrop = true)
+            textEmail.text = gAccount.email
+            textDisplayName.text = gAccount.displayName
         } ?: run {
             textSignInButton.text = "Sign in with Google"
             textEmail.text = ""
@@ -91,9 +122,7 @@ class SignInDialog: DialogFragment() {
         accountAvatar = view.findViewById(R.id.avatar_dialog_sign_in)
         textEmail = view.findViewById(R.id.email_dialog_sign_in)
         textDisplayName = view.findViewById(R.id.display_name_dialog_sign_in)
-
         val account = googleService.getLastSignedInAccount()
-
         showAccountData(account)
 
         signInButton.setOnClickListener {
@@ -103,12 +132,15 @@ class SignInDialog: DialogFragment() {
 
                 resultLauncher.launch(signInIntent)
             } else {
-                googleService.googleSignOut().addOnCompleteListener {
-                    textSignInButton.text = "Sign in with Google"
-                    textEmail.text = ""
-                    textDisplayName.text = ""
-                    onGoogleSignImpl?.onGoogleSignOut()
-                    imageViewLoader.loadInto(R.drawable.account_image_grey, accountAvatar)
+                launch(MagicRunesApp.backgroundTaskDispatcher) {
+                    signInDialogInteractor.syncLocaleAndFirestoreLastRune()
+                    googleService.googleSignOut().addOnCompleteListener {
+                        textSignInButton.text = "Sign in with Google"
+                        textEmail.text = ""
+                        textDisplayName.text = ""
+                        onGoogleSignImpl?.onGoogleSignOut()
+                        imageViewLoader.loadInto(R.drawable.account_image_grey, accountAvatar)
+                    }
                 }
             }
         }

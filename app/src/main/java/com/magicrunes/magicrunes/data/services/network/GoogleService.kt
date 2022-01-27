@@ -7,23 +7,33 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.magicrunes.magicrunes.MagicRunesApp
+import com.magicrunes.magicrunes.data.entities.cache.UserInfoDbEntity
+import com.magicrunes.magicrunes.data.services.database.room.db.MagicRunesDB
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlin.coroutines.CoroutineContext
 
 class GoogleService(
     private val context: Context
-): IGoogleService {
+): IGoogleService, CoroutineScope {
+    override val coroutineContext: CoroutineContext
+        get() = MagicRunesApp.backgroundTaskDispatcher + SupervisorJob()
+
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
-    private lateinit var firebaseAuth: FirebaseAuth
+    lateinit var firebaseAuth: FirebaseAuth
 
     private var googleAccount: GoogleSignInAccount? = null
 
-    init {
-        googleSignIn()
-    }
+    override val googleStateFlow = MutableStateFlow(false)
+    private val _googleStateFlow: StateFlow<Boolean> = googleStateFlow
 
-    override fun googleSignIn() {
+    override suspend fun googleSignIn() {
         val idToken = with(context.resources) {
             getString(getIdentifier("googleRequestIdToken", "string", context.packageName))
         }
@@ -34,27 +44,63 @@ class GoogleService(
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
 
-        firebaseAuth = Firebase.auth
-
         googleAccount = getLastSignedInAccount()
+
+        googleAccount?.let {
+            firestoreSignIn(it)
+            googleStateFlow.value = true
+
+        } ?: run {
+            googleStateFlow.value = false
+        }
     }
 
-    override fun getLastSignedInAccount(): GoogleSignInAccount? {
-        googleAccount = GoogleSignIn.getLastSignedInAccount(context)
+    override fun isAccountExpired(): Boolean = googleAccount?.isExpired == true
 
-        return googleAccount
+    override fun getLastSignedInAccount(): GoogleSignInAccount? {
+        return GoogleSignIn.getLastSignedInAccount(context)
     }
 
     override fun setSignedInAccount(account: GoogleSignInAccount) {
         googleAccount = account
     }
 
+    override suspend fun firestoreSignIn(account: GoogleSignInAccount, needUpdateUi: Boolean) {
+        account.idToken?.let {
+            val cred = GoogleAuthProvider.getCredential(it, null)
+            firebaseAuth = Firebase.auth
+            firebaseAuth.signInWithCredential(cred).addOnSuccessListener {
+                signInCallback?.invoke(
+                    account.id ?: "",
+                    getFirebaseUid() ?: "",
+                    account.displayName ?: ""
+                )
+            }.addOnFailureListener {
+                println("addOnFailureListener")
+            }
+        }
+    }
+
     override fun getGoogleSignInClient(): GoogleSignInClient =
         mGoogleSignInClient
 
-    override fun googleSignOut(): Task<Void> {
+    override suspend fun googleSignOut(): Task<Void> {
         googleAccount = null
+        googleStateFlow.value = false
 
         return mGoogleSignInClient.signOut()
+    }
+
+    override fun getFirebaseUid(): String? = firebaseAuth.uid
+
+    override fun getGooglePhoto(): String? =
+        if (googleAccount != null) {
+            googleAccount?.photoUrl.toString()
+        } else {
+            null
+        }
+
+    companion object {
+        var signInCallback: ((idGoogle: String, idFirestore: String, name: String) -> Unit)? = null
     }
 }

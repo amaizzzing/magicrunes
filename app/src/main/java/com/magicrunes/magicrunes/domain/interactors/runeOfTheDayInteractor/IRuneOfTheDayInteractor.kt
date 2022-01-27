@@ -18,7 +18,7 @@ interface IRuneOfTheDayInteractor {
     suspend fun createModel(rune: RuneDbEntity, isReverse: Boolean = false): RuneOfTheDayModel
     suspend fun createModel(rune: RuneDbEntity): RuneOfTheDayModel
 
-    suspend fun getRuneFromHistory(historyId: Long): BaseState
+    suspend fun getRuneFromHistory(historyDate: Long): BaseState
 
     suspend fun isTodayRune(): Boolean
 }

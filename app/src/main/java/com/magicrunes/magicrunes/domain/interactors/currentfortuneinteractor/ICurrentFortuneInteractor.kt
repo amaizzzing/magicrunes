@@ -7,7 +7,7 @@ import com.magicrunes.magicrunes.ui.models.RuneOfTheDayModel
 interface ICurrentFortuneInteractor {
     suspend fun getRandomRunes(count: Int): List<RuneOfTheDayModel>
 
-    suspend fun updateHistoryFortune(idFortune: Long)
+    suspend fun updateHistoryFortune(idFortune: Long, fortuneRunesList: List<RuneOfTheDayModel>): HistoryFortuneDbEntity?
 
     suspend fun updateLastDateFortune(id: Long, date: Long)
 
