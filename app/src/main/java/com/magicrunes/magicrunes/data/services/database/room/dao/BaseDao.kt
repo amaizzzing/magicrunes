@@ -1,4 +1,4 @@
-package com.magicrunes.magicrunes.data.services.database.dao
+package com.magicrunes.magicrunes.data.services.database.room.dao
 
 import androidx.room.*
 import com.magicrunes.magicrunes.data.entities.cache.BaseRoom

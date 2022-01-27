@@ -1,17 +1,19 @@
 package com.magicrunes.magicrunes.domain.interactors.addcommentdialoginteractor
 
-import com.magicrunes.magicrunes.data.repositories.historyRune.IHistoryRuneRepository
+import com.magicrunes.magicrunes.data.repositories.historyRune.HistoryRuneRepositoryFactory
 import com.magicrunes.magicrunes.data.repositories.rune.IRuneRepository
 import com.magicrunes.magicrunes.ui.models.CommentDialogModel
 
 class CommentDialogInteractor(
     private val runeRepository: IRuneRepository,
-    private val historyRuneRepository: IHistoryRuneRepository
+    private val historyRuneRepositoryFactory: HistoryRuneRepositoryFactory
 ): ICommentDialogInteractor {
-    override suspend fun getDialogComment(idHistory: Long?): CommentDialogModel? {
+    override suspend fun getDialogComment(historyDate: Long?): CommentDialogModel? {
+        val historyRuneRepository = historyRuneRepositoryFactory.getHistoryRuneRepository()
+
         val historyRune =
-            idHistory?.let {
-                historyRuneRepository.getRuneByHistoryId(idHistory)
+            historyDate?.let {
+                historyRuneRepository.getRuneByHistoryDate(historyDate)
             } ?: historyRuneRepository.getLastRune()
 
         historyRune?.let {
@@ -23,7 +25,7 @@ class CommentDialogInteractor(
         return null
     }
 
-    override suspend fun saveComment(idHistory: Long, comment: String) {
-        historyRuneRepository.updateComment(idHistory, comment)
+    override suspend fun saveComment(historyDate: Long, comment: String) {
+        historyRuneRepositoryFactory.getHistoryRuneRepository().updateComment(historyDate, comment)
     }
 }

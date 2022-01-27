@@ -9,6 +9,7 @@ data class CommentDialogModel(
     var idHistory: Long = 0L,
     var runeName: String = "",
     var date: String = "",
+    var dateInMillis: Long = 0L,
     var comment: String = ""
 ) {
     constructor(
@@ -19,6 +20,7 @@ data class CommentDialogModel(
         idHistory = historyRuneDbEntity.id
         runeName = runeDbEntity.name
         date = DateUtils.getStringDate(historyRuneDbEntity.date)
+        dateInMillis = historyRuneDbEntity.date
         comment = historyRuneDbEntity.comment
     }
 }

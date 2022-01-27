@@ -22,9 +22,17 @@ import com.magicrunes.magicrunes.data.services.resource.IResourceService
 import com.magicrunes.magicrunes.databinding.ActivityMainBinding
 import com.magicrunes.magicrunes.ui.dialogs.SignInDialog
 import com.magicrunes.magicrunes.ui.widget.RuneOfTheDayWidget
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AppCompatActivity(), SignInDialog.OnGoogleSign {
+class MainActivity : AppCompatActivity(), CoroutineScope {
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + SupervisorJob()
+
     @Inject
     lateinit var resourceService: IResourceService
 
@@ -63,7 +71,13 @@ class MainActivity : AppCompatActivity(), SignInDialog.OnGoogleSign {
 
         checkWidgets()
 
-        SignInDialog.onGoogleSignImpl = this
+        launch {
+            googleService.googleSignIn()
+
+            googleService.googleStateFlow.collect { isSignIn ->
+                loadAvatarImageToToolbar(isSignIn)
+            }
+        }
     }
 
     private fun signIn() {
@@ -150,24 +164,20 @@ class MainActivity : AppCompatActivity(), SignInDialog.OnGoogleSign {
 
         toolbarMenu = menu
 
-        loadAvatarImageToToolbar()
+        loadAvatarImageToToolbar(googleService.getGooglePhoto() != null)
 
         return true
     }
 
-    private fun loadAvatarImageToToolbar() {
+    private fun loadAvatarImageToToolbar(isSignIn: Boolean) = launch {
         toolbarMenu?.findItem(R.id.account_image)?.let { accountItem ->
-            googleService.getLastSignedInAccount()?.let { googleAccount ->
-                imageViewLoader.loadInto(googleAccount.photoUrl.toString(), accountItem, this, resources)
-            } ?: imageViewLoader.loadInto(R.drawable.account_image, accountItem, this, resources)
+            if (isSignIn) {
+                googleService.getGooglePhoto()?.let {
+                    imageViewLoader.loadInto(it, accountItem, this@MainActivity, resources)
+                }
+            } else {
+                imageViewLoader.loadInto(R.drawable.account_image, accountItem, this@MainActivity, resources)
+            }
         }
-    }
-
-    override fun onGoogleSignIn() {
-        loadAvatarImageToToolbar()
-    }
-
-    override fun onGoogleSignOut() {
-        loadAvatarImageToToolbar()
     }
 }

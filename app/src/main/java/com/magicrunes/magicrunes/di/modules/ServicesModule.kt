@@ -2,8 +2,13 @@ package com.magicrunes.magicrunes.di.modules
 
 import android.widget.ImageView
 import androidx.room.Room
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.magicrunes.magicrunes.MagicRunesApp
-import com.magicrunes.magicrunes.data.services.database.db.MagicRunesDB
+import com.magicrunes.magicrunes.data.services.database.firestore.FireDatabase
+import com.magicrunes.magicrunes.data.services.database.firestore.IFireDatabase
+import com.magicrunes.magicrunes.data.services.database.room.db.MagicRunesDB
 import com.magicrunes.magicrunes.data.services.image.GlideImageViewLoader
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
 import com.magicrunes.magicrunes.data.services.image.ImageService
@@ -49,4 +54,13 @@ class ServicesModule {
     @Singleton
     @Provides
     fun googleService(app: MagicRunesApp): IGoogleService = GoogleService(app)
+
+    @Provides
+    @Singleton
+    fun fireDatabase(firebaseFirestore: FirebaseFirestore): IFireDatabase =
+        FireDatabase(firebaseFirestore)
+
+    @Provides
+    @Singleton
+    fun firebaseFirestore(): FirebaseFirestore = Firebase.firestore
 }

@@ -1,12 +1,10 @@
 package com.magicrunes.magicrunes.ui.viewmodels
 
 import androidx.lifecycle.viewModelScope
-import com.magicrunes.magicrunes.data.entities.cache.FortuneHistoryRunesDbEntity
 import com.magicrunes.magicrunes.domain.interactors.currentfortuneinteractor.ICurrentFortuneInteractor
 import com.magicrunes.magicrunes.ui.fragments.currentfortunestrategies.FortuneFactory
 import com.magicrunes.magicrunes.ui.models.RuneOfTheDayModel
 import com.magicrunes.magicrunes.ui.states.BaseState
-import com.magicrunes.magicrunes.utils.toInt
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
@@ -38,21 +36,8 @@ class CurrentFortuneViewModel @Inject constructor(
 
     suspend fun updateHistoryFortune(idFortune: Long): Long? {
         currentFortuneInteractor.updateLastDateFortune(idFortune, DateTime().millis)
-        currentFortuneInteractor.updateHistoryFortune(idFortune)
+        val fortuneInHistory = currentFortuneInteractor.updateHistoryFortune(idFortune, currentFortuneRunes)
 
-        val fortuneInHistory = currentFortuneInteractor.getLastInHistory()
-        fortuneInHistory?.let { fortune ->
-            currentFortuneRunes
-                .map {
-                    FortuneHistoryRunesDbEntity().apply {
-                        idHistory = fortune.id
-                        idRune = it.idRune
-                        state = it.isReverse.toInt()
-                    }
-                }
-                .forEach { currentFortuneInteractor.insertFortuneRune(it) }
-        }
-
-        return fortuneInHistory?.id
+        return fortuneInHistory?.date
     }
 }

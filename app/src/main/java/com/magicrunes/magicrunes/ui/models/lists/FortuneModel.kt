@@ -31,17 +31,17 @@ data class FortuneModel(
         isFavourite = fortuneDbEntity.favourite
     )
 
-    constructor(fortuneDbEntity: FortuneDbEntity, currentStrategy: ICurrentFragmentStrategy): this(
+    constructor(fortuneDbEntity: FortuneDbEntity, date: Long, currentStrategy: ICurrentFragmentStrategy): this(
         id = fortuneDbEntity.id,
         nameFortune = fortuneDbEntity.nameFortune,
         description = fortuneDbEntity.description,
         date =
-            if (fortuneDbEntity.lastDate == 0L) {
+            if (date == 0L) {
                 "-"
             } else {
-                DateUtils.getStringDate(fortuneDbEntity.lastDate)
+                DateUtils.getStringDate(date)
             },
-        dateInMillis = fortuneDbEntity.lastDate,
+        dateInMillis = date,
         image = fortuneDbEntity.localImageName,
         imageId = -1,
         isFavourite = fortuneDbEntity.favourite,

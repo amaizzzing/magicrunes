@@ -1,7 +1,7 @@
 package com.magicrunes.magicrunes.data.repositories.fortune
 
 import com.magicrunes.magicrunes.data.entities.cache.FortuneDbEntity
-import com.magicrunes.magicrunes.data.services.database.db.MagicRunesDB
+import com.magicrunes.magicrunes.data.services.database.room.db.MagicRunesDB
 
 class FortuneRepository(
     private val dbService: MagicRunesDB

@@ -1,6 +1,8 @@
 package com.magicrunes.magicrunes.di.components
 
 import com.magicrunes.magicrunes.MagicRunesApp
+import com.magicrunes.magicrunes.data.services.network.GoogleService
+import com.magicrunes.magicrunes.data.services.network.IGoogleService
 import com.magicrunes.magicrunes.di.WorkerModule
 import com.magicrunes.magicrunes.di.modules.*
 import com.magicrunes.magicrunes.ui.MainActivity
@@ -64,4 +66,6 @@ interface AppComponent: AndroidInjector<MagicRunesApp> {
     fun inject(fortuneListPresenter: FortuneListPresenter)
 
     fun inject(runeOfTheDayWidget: RuneOfTheDayWidget)
+
+    fun getGoogleService(): IGoogleService
 }

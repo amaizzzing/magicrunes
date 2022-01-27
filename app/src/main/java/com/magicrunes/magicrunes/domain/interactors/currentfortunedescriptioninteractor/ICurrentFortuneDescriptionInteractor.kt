@@ -3,5 +3,5 @@ package com.magicrunes.magicrunes.domain.interactors.currentfortunedescriptionin
 import com.magicrunes.magicrunes.ui.models.CurrentFortuneDescriptionModel
 
 interface ICurrentFortuneDescriptionInteractor {
-    suspend fun getCurrentFortuneRunes(idHistory: Long): List<CurrentFortuneDescriptionModel>
+    suspend fun getCurrentFortuneRunes(historyDate: Long): List<CurrentFortuneDescriptionModel>
 }

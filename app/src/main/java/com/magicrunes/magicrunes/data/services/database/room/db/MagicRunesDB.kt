@@ -1,9 +1,9 @@
-package com.magicrunes.magicrunes.data.services.database.db
+package com.magicrunes.magicrunes.data.services.database.room.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.magicrunes.magicrunes.data.entities.cache.*
-import com.magicrunes.magicrunes.data.services.database.dao.*
+import com.magicrunes.magicrunes.data.services.database.room.dao.*
 
 @Database(
     entities = [

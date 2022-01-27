@@ -5,8 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 class UserInfoDbEntity: BaseRoom() {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     var id: Long = 0
+    var idGoogle: String = ""
+    var idFirestore: String = ""
     var name: String = ""
     var lastname: String = ""
     var birthDate: Long = 0
