@@ -24,8 +24,6 @@ import com.magicrunes.magicrunes.ui.dialogs.SignInDialog
 import com.magicrunes.magicrunes.ui.widget.RuneOfTheDayWidget
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 

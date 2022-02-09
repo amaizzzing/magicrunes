@@ -8,14 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.magicrunes.magicrunes.MagicRunesApp
-import com.magicrunes.magicrunes.data.services.network.IGoogleService
 import com.magicrunes.magicrunes.ui.states.BaseState
-import com.magicrunes.magicrunes.ui.viewmodels.HistoryFragmentViewModel
 import com.magicrunes.magicrunes.utils.setGone
 import com.magicrunes.magicrunes.utils.setVisible
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseFragment<VBinding : ViewBinding?, VViewModel : ViewModel>: Fragment(), CoroutineScope {

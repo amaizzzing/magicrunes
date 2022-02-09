@@ -1,7 +1,10 @@
 package com.magicrunes.magicrunes.ui.fragments.currentfortunestrategies
 
 interface ICurrentFragmentStrategy {
-    var invisibleRuneList: ArrayList<Int>
+    var visibleRuneList: ArrayList<Int>
+
+    var maxCol: Int
+    var maxRow: Int
 
     var description: List<String>
 }

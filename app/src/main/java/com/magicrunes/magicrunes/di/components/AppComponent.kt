@@ -1,7 +1,6 @@
 package com.magicrunes.magicrunes.di.components
 
 import com.magicrunes.magicrunes.MagicRunesApp
-import com.magicrunes.magicrunes.data.services.network.GoogleService
 import com.magicrunes.magicrunes.data.services.network.IGoogleService
 import com.magicrunes.magicrunes.di.WorkerModule
 import com.magicrunes.magicrunes.di.modules.*

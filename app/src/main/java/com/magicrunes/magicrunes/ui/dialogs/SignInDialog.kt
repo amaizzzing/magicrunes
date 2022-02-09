@@ -18,12 +18,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.magicrunes.magicrunes.MagicRunesApp
 import com.magicrunes.magicrunes.R
-import com.magicrunes.magicrunes.data.entities.cache.UserInfoDbEntity
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
 import com.magicrunes.magicrunes.data.services.network.GoogleService
 import com.magicrunes.magicrunes.data.services.network.IGoogleService
 import com.magicrunes.magicrunes.domain.interactors.signindialoginteractor.ISignInDialogInteractor
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 

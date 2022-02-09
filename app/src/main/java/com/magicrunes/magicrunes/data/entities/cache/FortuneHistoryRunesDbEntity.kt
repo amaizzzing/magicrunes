@@ -1,7 +1,6 @@
 package com.magicrunes.magicrunes.data.entities.cache
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity()

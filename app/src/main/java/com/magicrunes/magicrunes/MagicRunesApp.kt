@@ -41,8 +41,8 @@ class MagicRunesApp: DaggerApplication() {
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             WORK_NAME,
             ExistingPeriodicWorkPolicy.REPLACE,
-            PeriodicWorkRequestBuilder<BackgroundRuneService>(24, TimeUnit.HOURS)
-                .setInitialDelay(1, TimeUnit.HOURS)
+            PeriodicWorkRequestBuilder<BackgroundRuneService>(1, TimeUnit.HOURS)
+                .setInitialDelay(30, TimeUnit.MINUTES)
                 .setConstraints(Constraints.NONE)
                 .build())
     }
