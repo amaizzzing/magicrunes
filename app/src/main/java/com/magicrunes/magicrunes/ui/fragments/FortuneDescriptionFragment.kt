@@ -88,14 +88,14 @@ class FortuneDescriptionFragment: BaseFragment<FragmentFortuneDescriptionBinding
                 imageRuneFotuneDescription.alpha = 0f
 
                 imageLoader.loadInto(
-                    imageService.getRuneBitmap(
-                        runeList[position].image,
-                        runeList[position].isReverse
-                    ),
+                    imageService.getImageResource(runeList[position].image),
                     imageRuneFotuneDescription as ImageView
                 )
 
                 imageRuneFotuneDescription.animate()?.alpha(1f)?.setDuration(400)?.start()
+                if (runeList[position].isReverse) {
+                    imageRuneFotuneDescription.rotation = 180f
+                }
                 viewPager.adapter?.notifyItemChanged(position)
             }
         }

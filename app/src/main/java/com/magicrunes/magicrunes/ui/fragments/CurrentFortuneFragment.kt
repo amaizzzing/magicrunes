@@ -116,13 +116,13 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
             .forEach {
                 withContext(coroutineContext) {
                     imageLoader.loadInto(
-                        imageService.getRuneBitmap(
-                            it.second.image,
-                            it.second.isReverse
-                        ),
+                        imageService.getImageResource(it.second.image),
                         it.first as ImageView
                     )
                     (it.first as ImageView).apply {
+                        if (it.second.isReverse) {
+                            rotation = 180f
+                        }
                         alpha = 0f
                         animate().alpha(1.0f).setDuration(1000).start()
                     }

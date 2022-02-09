@@ -195,12 +195,12 @@ class MainFragment:
                         avrevDescriptionRuneMainFragment.text = it.avrevDescription
 
                         imageLoader.loadInto(
-                            imageService.getRuneBitmap(
-                                it.image,
-                                it.isReverse
-                            ),
+                            imageService.getImageResource(it.image),
                             runeImageMainFragment as ImageView
                         )
+                        if (it.isReverse) {
+                            runeImageMainFragment.rotation = 180f
+                        }
 
                         avrevNameMainFragment.text =
                             if (it.isReverse) {
