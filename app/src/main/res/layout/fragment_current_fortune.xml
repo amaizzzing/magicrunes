@@ -42,94 +42,12 @@
         android:id="@+id/grid_current_fortune"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:columnCount="3"
-        android:rowCount="3"
         android:layout_marginTop="@dimen/margin_2"
         android:layout_marginBottom="@dimen/margin_5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/guideline_end_horiz">
-        <com.magicrunes.magicrunes.ui.customView.RuneImageView
-            android:id="@+id/fortune_rune_1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/fortune_placeholder"
-            android:alpha="0.75"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1" />
-
-        <com.magicrunes.magicrunes.ui.customView.RuneImageView
-            android:id="@+id/fortune_rune_2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/fortune_placeholder"
-            android:alpha="0.75"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
-
-        <com.magicrunes.magicrunes.ui.customView.RuneImageView
-            android:id="@+id/fortune_rune_3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/fortune_placeholder"
-            android:alpha="0.75"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
-
-        <com.magicrunes.magicrunes.ui.customView.RuneImageView
-            android:id="@+id/fortune_rune_4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/fortune_placeholder"
-            android:alpha="0.75"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
-
-        <com.magicrunes.magicrunes.ui.customView.RuneImageView
-            android:id="@+id/fortune_rune_5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/fortune_placeholder"
-            android:alpha="0.75"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
-
-        <com.magicrunes.magicrunes.ui.customView.RuneImageView
-            android:id="@+id/fortune_rune_6"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/fortune_placeholder"
-            android:alpha="0.75"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
-
-        <com.magicrunes.magicrunes.ui.customView.RuneImageView
-            android:id="@+id/fortune_rune_7"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/fortune_placeholder"
-            android:alpha="0.75"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
-
-        <com.magicrunes.magicrunes.ui.customView.RuneImageView
-            android:id="@+id/fortune_rune_8"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/fortune_placeholder"
-            android:alpha="0.75"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
-
-        <com.magicrunes.magicrunes.ui.customView.RuneImageView
-            android:id="@+id/fortune_rune_9"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/fortune_placeholder"
-            android:alpha="0.75"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
     </GridLayout>
 
     <FrameLayout

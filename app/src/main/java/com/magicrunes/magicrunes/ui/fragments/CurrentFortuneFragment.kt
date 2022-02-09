@@ -1,6 +1,7 @@
 package com.magicrunes.magicrunes.ui.fragments
 
 import android.os.Bundle
+import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.os.bundleOf
@@ -22,7 +23,6 @@ import com.magicrunes.magicrunes.ui.fragments.currentfortunestrategies.ICurrentF
 import com.magicrunes.magicrunes.ui.states.BaseState
 import com.magicrunes.magicrunes.ui.states.CurrentFortuneState
 import com.magicrunes.magicrunes.ui.viewmodels.CurrentFortuneViewModel
-import com.magicrunes.magicrunes.utils.setInvisible
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -167,51 +167,32 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
     }
 
     private fun createVisibleRunes(strategy: ICurrentFragmentStrategy) {
-        fillRunesImageList()
-
-        val list = mutableListOf<RuneImageView?>()
-        runesList.forEachIndexed { index, runeImageView ->
-            val data = index + 1
-            if (strategy.invisibleRuneList.contains(data)) {
-                binding?.apply {
-                    when(data) {
-                        1 -> fortuneRune1.setInvisible()
-                        2 -> fortuneRune2.setInvisible()
-                        3 -> fortuneRune3.setInvisible()
-                        4 -> fortuneRune4.setInvisible()
-                        5 -> fortuneRune5.setInvisible()
-                        6 -> fortuneRune6.setInvisible()
-                        7 -> fortuneRune7.setInvisible()
-                        8 -> fortuneRune8.setInvisible()
-                        9 -> fortuneRune9.setInvisible()
-                    }
-                }
-            } else {
-                list.add(runeImageView)
-            }
-        }
-        if (list.isNotEmpty()) {
-            runesList.clear()
-            runesList.addAll(list)
-        }
-    }
-
-    private fun fillRunesImageList() {
         binding?.apply {
             runesList.clear()
-            runesList.addAll(
-                listOf(
-                    fortuneRune1,
-                    fortuneRune2,
-                    fortuneRune3,
-                    fortuneRune4,
-                    fortuneRune5,
-                    fortuneRune6,
-                    fortuneRune7,
-                    fortuneRune8,
-                    fortuneRune9
-                )
-            )
+            gridCurrentFortune.removeAllViewsInLayout()
+            gridCurrentFortune.columnCount = strategy.maxCol
+            gridCurrentFortune.rowCount = strategy.maxRow
+
+            (1..strategy.maxCol * strategy.maxRow).forEach { index ->
+                val image = RuneImageView(requireContext()).apply {
+                    alpha = 0.75f
+                    if (strategy.visibleRuneList.contains(index)) {
+                        imageLoader.loadInto(
+                            R.drawable.fortune_placeholder,
+                            this
+                        )
+                        runesList.add(this)
+                    }
+                }
+
+                val param = GridLayout.LayoutParams().apply {
+                    columnSpec = GridLayout.spec(GridLayout.UNDEFINED,  1f)
+                    rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                    width = 0
+                    height = 0
+                }
+                gridCurrentFortune.addView(image, param)
+            }
         }
     }
 
@@ -227,6 +208,7 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
 
                     (data.resultData as ICurrentFragmentStrategy).also {
                         currentStrategy = it
+
                         createVisibleRunes(it)
                     }
                 }

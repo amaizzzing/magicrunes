@@ -11,9 +11,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.magicrunes.magicrunes.MagicRunesApp
-import com.magicrunes.magicrunes.data.entities.cache.UserInfoDbEntity
-import com.magicrunes.magicrunes.data.services.database.room.db.MagicRunesDB
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.coroutines.CoroutineContext
