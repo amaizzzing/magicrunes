@@ -29,6 +29,7 @@
     <string name="create_fortune">Формирование расклада…</string>
     <string name="show_description">Посмотреть описание</string>
     <string name="creating_fortune">Идет формирование расклада</string>
+    <string name="count_runes">Рун: %1$s</string>
 
     <string name="add_widget">Add widget</string>
     <string name="widget_text">Ваша руна дня:</string>

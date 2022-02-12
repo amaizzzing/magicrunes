@@ -136,7 +136,9 @@ class AddCommentDialogFragment: DialogFragment(), CoroutineScope{
         fun newInstance(idHistory: Long? = null): AddCommentDialogFragment =
             AddCommentDialogFragment().apply {
                 idHistory?.let {
-                    this.arguments = bundleOf(HISTORY_DATE to it)
+                    if (idHistory != -1L) {
+                        this.arguments = bundleOf(HISTORY_DATE to it)
+                    }
                 }
             }
 

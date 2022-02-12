@@ -15,6 +15,8 @@ import com.magicrunes.magicrunes.di.factory.ViewModelFactory
 import com.magicrunes.magicrunes.ui.adapters.FortuneDiffUtilCallback
 import com.magicrunes.magicrunes.ui.adapters.FortuneFragmentAdapter
 import com.magicrunes.magicrunes.ui.adapters.presenters.fortune.IFortuneListPresenter
+import com.magicrunes.magicrunes.ui.dialogs.FORTUNE_DESCRIPTION_DIALOG_TAG
+import com.magicrunes.magicrunes.ui.dialogs.FortuneDescriptionDialog
 import com.magicrunes.magicrunes.ui.models.lists.FortuneModel
 import com.magicrunes.magicrunes.ui.states.BaseState
 import com.magicrunes.magicrunes.ui.viewmodels.FortuneFragmentViewModel
@@ -51,6 +53,11 @@ class FortuneFragment: BaseFragment<FragmentFortuneBinding, FortuneFragmentViewM
 
         fortuneListPresenter.favouriteClickListener = { position ->
             changeFavouritePosition(position)
+        }
+        fortuneListPresenter.descriptionClickListener = { position ->
+            FortuneDescriptionDialog
+                .newInstance(fortuneListPresenter.getList()[position].id)
+                .show(childFragmentManager, FORTUNE_DESCRIPTION_DIALOG_TAG)
         }
     }
 

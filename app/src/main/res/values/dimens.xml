@@ -16,19 +16,24 @@
     <dimen name="text_size_20">20sp</dimen>
     <dimen name="text_size_22">22sp</dimen>
     <dimen name="text_size_32">32sp</dimen>
+    <dimen name="text_size_34">34sp</dimen>
 
     <dimen name="padding_12">12dp</dimen>
     <dimen name="padding_25">25dp</dimen>
 
     <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
     <dimen name="margin_5">5dp</dimen>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_10">10dp</dimen>
     <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_22">22dp</dimen>
     <dimen name="margin_25">25dp</dimen>
+    <dimen name="margin_30">30dp</dimen>
     <dimen name="margin_35">35dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
     <dimen name="image_width_60">60dp</dimen>
     <dimen name="image_height_85">85dp</dimen>
 
@@ -42,6 +47,8 @@
 
     <dimen name="fortune_item_date_image">20dp</dimen>
     <dimen name="fortune_item_like_image">20dp</dimen>
+
+    <dimen name="fortune_description_image_size">30dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

@@ -15,5 +15,7 @@ interface IFortuneListPresenter: IListPresenter<FortuneItemView> {
 
     var favouriteClickListener:((pos: Int) -> Unit)?
 
+    var descriptionClickListener:((pos: Int) -> Unit)?
+
     var modelClickListener:((pos: Int) -> Unit)?
 }
