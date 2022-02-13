@@ -18,6 +18,8 @@
             android:layout_marginTop="@dimen/margin_12"
             android:layout_gravity="center|top"
             app:singleSelection="true"
+            app:checkedChip="@id/chip_all_history"
+            app:selectionRequired="true"
             app:layout_scrollFlags="scroll|enterAlways">
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_all_history"
