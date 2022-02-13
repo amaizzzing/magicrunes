@@ -12,10 +12,10 @@ class FortuneDiffUtilCallback(
     override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].nameFortune == newList[newItemPosition].nameFortune
+        oldList[oldItemPosition].id == newList[newItemPosition].id
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].isFavourite == newList[newItemPosition].isFavourite
+        oldList[oldItemPosition] == newList[newItemPosition]
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
         return super.getChangePayload(oldItemPosition, newItemPosition)

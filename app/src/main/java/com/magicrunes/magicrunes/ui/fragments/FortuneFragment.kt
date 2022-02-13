@@ -22,6 +22,7 @@ import com.magicrunes.magicrunes.ui.states.BaseState
 import com.magicrunes.magicrunes.ui.viewmodels.FortuneFragmentViewModel
 import java.util.*
 import javax.inject.Inject
+import kotlin.Comparator
 
 const val REQUEST_KEY = "fortuneStrategy"
 const val BUNDLE_KEY = "id_model"
@@ -133,38 +134,27 @@ class FortuneFragment: BaseFragment<FragmentFortuneBinding, FortuneFragmentViewM
 
     private fun changeFavouritePosition(position: Int) {
         val oldFortuneList = fortuneListPresenter.getList()
-        val newList = ArrayList(oldFortuneList.map { it.copy() })
-        val element = newList[position]
+        val changedId = oldFortuneList[position].id
 
-        element.isFavourite = !element.isFavourite
+        var newList = oldFortuneList.map { it.copy() }
 
-        viewModel.updateFavouriteFortune(element.id, element.isFavourite)
-
-        newList.removeAt(position)
-
-        var index = 0
-        oldFortuneList.find{ it.isFavourite == element.isFavourite && it.dateInMillis < element.dateInMillis}?.let {
-            index = oldFortuneList.indexOf(it)
-            newList.add(index, element)
-        } ?: run {
-            if (element.isFavourite) {
-                index = 0
-                newList.add(0, element)
-            } else {
-                index = newList.size
-                newList.add(newList.size, element)
-            }
+        newList.find { it.id == changedId }?.let {
+            it.isFavourite = !it.isFavourite
+            viewModel.updateFavouriteFortune(oldFortuneList[position].id, it.isFavourite)
         }
+        newList = newList
+            .sortedWith(compareBy<FortuneModel> { it.isFavourite }.thenBy { it.dateInMillis })
+            .reversed()
 
         diffUtilUpdates(newList)
-
-        binding?.rvFortune?.scrollToPosition(index)
     }
 
     private fun diffUtilUpdates(list: List<FortuneModel>) {
-        val fortuneDiffUtilCallback = FortuneDiffUtilCallback(fortuneListPresenter.getList(), list)
-        val diffResult = DiffUtil.calculateDiff(fortuneDiffUtilCallback, true)
-        fortuneListPresenter.setList(list)
-        diffResult.dispatchUpdatesTo(adapter!!)
+        adapter?.let {
+            val fortuneDiffUtilCallback = FortuneDiffUtilCallback(fortuneListPresenter.getList(), list)
+            val diffResult = DiffUtil.calculateDiff(fortuneDiffUtilCallback, true)
+            fortuneListPresenter.setList(list)
+            diffResult.dispatchUpdatesTo(it)
+        }
     }
 }
