@@ -20,6 +20,7 @@ import com.magicrunes.magicrunes.di.factory.ViewModelFactory
 import com.magicrunes.magicrunes.ui.MainActivity
 import com.magicrunes.magicrunes.ui.customView.RuneImageView
 import com.magicrunes.magicrunes.ui.fragments.currentfortunestrategies.ICurrentFragmentStrategy
+import com.magicrunes.magicrunes.ui.models.lists.FortuneModel
 import com.magicrunes.magicrunes.ui.states.BaseState
 import com.magicrunes.magicrunes.ui.states.CurrentFortuneState
 import com.magicrunes.magicrunes.ui.viewmodels.CurrentFortuneViewModel
@@ -47,7 +48,7 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
 
     private var currentFortuneState: CurrentFortuneState = CurrentFortuneState.BeforeShowing
 
-    private var runesList = mutableListOf<RuneImageView?>()
+    private var runesList = mutableListOf<Pair<RuneImageView?, Int>>()
 
     override fun setupViews() {
         showAnimatedButtonText(getString(R.string.show_start_text))
@@ -111,24 +112,35 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
     }
 
     private suspend fun showFortuneRunes() {
-        runesList
-            .zip(viewModel.getRandomRunes(runesList.size))
-            .forEach {
+        val showList = runesList.zip(viewModel.getRandomRunes(runesList.size))
+        currentStrategy?.let { strategy ->
+            val strategyRuneList = strategy.visibleRuneList
+            var i = 0
+            while(i < strategyRuneList.size) {
                 withContext(coroutineContext) {
-                    imageLoader.loadInto(
-                        imageService.getImageResource(it.second.image),
-                        it.first as ImageView
-                    )
-                    (it.first as ImageView).apply {
-                        if (it.second.isReverse) {
-                            rotation = 180f
+                    showList.find {
+                        it.first.second == strategyRuneList[i]
+                    }?.let {
+                        val runeImageView = it.first.first
+                        val runeModel = it.second
+
+                        imageLoader.loadInto(
+                            imageService.getImageResource(runeModel.image),
+                            runeImageView as ImageView
+                        )
+                        (runeImageView as ImageView).apply {
+                            if (runeModel.isReverse) {
+                                rotation = 180f
+                            }
+                            alpha = 0f
+                            animate().alpha(1.0f).setDuration(1000).start()
                         }
-                        alpha = 0f
-                        animate().alpha(1.0f).setDuration(1000).start()
                     }
                 }
-                delay(750)
+                delay(500)
+                i++
             }
+        }
     }
 
     override fun getViewModelClass(): Class<CurrentFortuneViewModel> =
@@ -181,7 +193,7 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
                             R.drawable.fortune_placeholder,
                             this
                         )
-                        runesList.add(this)
+                        runesList.add(this to index)
                     }
                 }
 
@@ -193,6 +205,10 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
                 }
                 gridCurrentFortune.addView(image, param)
             }
+
+            runesList = runesList.mapIndexed { index, pair ->
+                runesList.find { it.second == strategy.visibleRuneList[index] } ?: pair
+            }.toMutableList()
         }
     }
 
