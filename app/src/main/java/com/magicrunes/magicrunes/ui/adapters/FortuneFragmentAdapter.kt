@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.magicrunes.magicrunes.R
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
 import com.magicrunes.magicrunes.data.services.image.ImageService
 import com.magicrunes.magicrunes.databinding.FortuneItemBinding
 import com.magicrunes.magicrunes.ui.adapters.items.FortuneItemView
 import com.magicrunes.magicrunes.ui.adapters.presenters.fortune.IFortuneListPresenter
-import com.magicrunes.magicrunes.R
 import javax.inject.Inject
 
 class FortuneFragmentAdapter (

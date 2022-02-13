@@ -1,6 +1,5 @@
 package com.magicrunes.magicrunes.domain.interactors.fortuneinteractor
 
-import android.content.res.Resources
 import com.magicrunes.magicrunes.data.repositories.fortune.IFortuneRepository
 import com.magicrunes.magicrunes.data.repositories.historyFortune.HistoryFortuneRepositoryFactory
 import com.magicrunes.magicrunes.ui.fragments.currentfortunestrategies.FortuneFactory

@@ -20,7 +20,6 @@ import com.magicrunes.magicrunes.di.factory.ViewModelFactory
 import com.magicrunes.magicrunes.ui.MainActivity
 import com.magicrunes.magicrunes.ui.customView.RuneImageView
 import com.magicrunes.magicrunes.ui.fragments.currentfortunestrategies.ICurrentFragmentStrategy
-import com.magicrunes.magicrunes.ui.models.lists.FortuneModel
 import com.magicrunes.magicrunes.ui.states.BaseState
 import com.magicrunes.magicrunes.ui.states.CurrentFortuneState
 import com.magicrunes.magicrunes.ui.viewmodels.CurrentFortuneViewModel

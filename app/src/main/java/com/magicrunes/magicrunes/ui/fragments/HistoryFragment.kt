@@ -3,7 +3,6 @@ package com.magicrunes.magicrunes.ui.fragments
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.core.view.get
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController

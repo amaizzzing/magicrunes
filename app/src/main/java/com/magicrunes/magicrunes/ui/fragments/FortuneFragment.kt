@@ -20,9 +20,7 @@ import com.magicrunes.magicrunes.ui.dialogs.FortuneDescriptionDialog
 import com.magicrunes.magicrunes.ui.models.lists.FortuneModel
 import com.magicrunes.magicrunes.ui.states.BaseState
 import com.magicrunes.magicrunes.ui.viewmodels.FortuneFragmentViewModel
-import java.util.*
 import javax.inject.Inject
-import kotlin.Comparator
 
 const val REQUEST_KEY = "fortuneStrategy"
 const val BUNDLE_KEY = "id_model"

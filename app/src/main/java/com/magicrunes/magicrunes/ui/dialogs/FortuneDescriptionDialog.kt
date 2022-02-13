@@ -12,7 +12,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.magicrunes.magicrunes.MagicRunesApp
 import com.magicrunes.magicrunes.R
-import com.magicrunes.magicrunes.data.services.image.GlideImageViewLoader
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
 import com.magicrunes.magicrunes.data.services.image.ImageService
 import com.magicrunes.magicrunes.domain.interactors.fortuneinteractor.IFortuneInteractor
