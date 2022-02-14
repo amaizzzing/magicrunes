@@ -1,6 +1,5 @@
 package com.magicrunes.magicrunes.ui.fragments
 
-import com.magicrunes.magicrunes.R
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayoutMediator
 import com.magicrunes.magicrunes.MagicRunesApp
+import com.magicrunes.magicrunes.R
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
 import com.magicrunes.magicrunes.data.services.image.ImageService
 import com.magicrunes.magicrunes.data.services.resource.IResourceService
@@ -98,18 +98,19 @@ class FortuneDescriptionFragment: BaseFragment<FragmentFortuneDescriptionBinding
                 resources
             )
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.fortune_description_menu_item -> {
                 launch(bgDispatcher) {
-                    val idFortune = viewModel.getDescriptionId(historyId)
-                    withContext(coroutineContext) {
-                        FortuneDescriptionDialog
-                            .newInstance(idFortune)
-                            .show(childFragmentManager, FORTUNE_DESCRIPTION_DIALOG_TAG)
+                    viewPagerPresenter.getList().firstOrNull()?.let {
+                        val idFortune = it.idFortune
+                        withContext(coroutineContext) {
+                            FortuneDescriptionDialog
+                                .newInstance(idFortune)
+                                .show(childFragmentManager, FORTUNE_DESCRIPTION_DIALOG_TAG)
+                        }
                     }
                 }
 
@@ -117,7 +118,6 @@ class FortuneDescriptionFragment: BaseFragment<FragmentFortuneDescriptionBinding
             }
             else -> super.onOptionsItemSelected(item)
         }
-
     }
 
     override fun observeData() {
@@ -143,6 +143,7 @@ class FortuneDescriptionFragment: BaseFragment<FragmentFortuneDescriptionBinding
                 if (runeList[position].isReverse) {
                     imageRuneFotuneDescription.rotation = 180f
                 }
+
                 viewPager.adapter?.notifyItemChanged(position)
             }
         }
