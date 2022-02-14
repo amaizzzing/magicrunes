@@ -49,7 +49,6 @@ abstract class BaseFragment<VBinding : ViewBinding?, VViewModel : ViewModel>: Fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeData()
         setupViews()
 
         if (this !is FortuneDescriptionFragment) {
@@ -59,6 +58,8 @@ abstract class BaseFragment<VBinding : ViewBinding?, VViewModel : ViewModel>: Fr
                 }
             }
             collectJob?.start()
+        } else {
+            observeData()
         }
     }
 
