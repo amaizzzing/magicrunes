@@ -56,7 +56,14 @@ class HistoryFragment:
             } ?: renderData(BaseState.Error(Error()))
         }
 
-        viewModel.getHistory(HistoryType.AllHistory)
+        binding?.let {
+            val historyType = when {
+                it.chipAllHistory.isChecked -> HistoryType.AllHistory
+                it.chipRuneDay.isChecked -> HistoryType.RuneType
+                else -> HistoryType.FortuneType
+            }
+            viewModel.getHistory(historyType)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,7 +118,6 @@ class HistoryFragment:
     private fun initListeners() {
         binding?.apply {
             chipRuneDay.setOnClickListener {
-                if (chipRuneDay.isChecked)
                 viewModel.getHistory(HistoryType.RuneType)
             }
             chipFortune.setOnClickListener {
