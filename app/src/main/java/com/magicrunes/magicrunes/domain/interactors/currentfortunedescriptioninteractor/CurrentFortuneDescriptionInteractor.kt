@@ -40,4 +40,7 @@ class CurrentFortuneDescriptionInteractor(
 
         return resultList
     }
+
+    override suspend fun getDescriptionId(historyDate: Long): Long? =
+        historyFortuneRepositoryFactory.getFortuneRepository().getFortuneHistoryByDate(historyDate)?.idFortune
 }

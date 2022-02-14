@@ -19,4 +19,7 @@ class CurrentFortuneDescriptionViewModel@Inject constructor(
             }
         }
     }
+
+    suspend fun getDescriptionId(historyId: Long): Long? =
+        currentFortuneDescriptionInteractor.getDescriptionId(historyId)
 }

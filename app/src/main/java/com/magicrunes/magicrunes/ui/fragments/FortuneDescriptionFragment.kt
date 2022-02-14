@@ -1,6 +1,10 @@
 package com.magicrunes.magicrunes.ui.fragments
 
+import com.magicrunes.magicrunes.R
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -18,12 +22,17 @@ import com.magicrunes.magicrunes.di.factory.ViewModelFactory
 import com.magicrunes.magicrunes.ui.MainActivity
 import com.magicrunes.magicrunes.ui.adapters.ViewPagerAdapter
 import com.magicrunes.magicrunes.ui.adapters.presenters.viewpager.IViewPagerPresenter
+import com.magicrunes.magicrunes.ui.dialogs.FORTUNE_DESCRIPTION_DIALOG_TAG
+import com.magicrunes.magicrunes.ui.dialogs.FortuneDescriptionDialog
 import com.magicrunes.magicrunes.ui.fragments.currentfortunestrategies.FortuneFactory
 import com.magicrunes.magicrunes.ui.models.CurrentFortuneDescriptionModel
 import com.magicrunes.magicrunes.ui.states.BaseState
 import com.magicrunes.magicrunes.ui.viewmodels.CurrentFortuneDescriptionViewModel
 import com.magicrunes.magicrunes.utils.getRecyclerView
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
 
 class FortuneDescriptionFragment: BaseFragment<FragmentFortuneDescriptionBinding, CurrentFortuneDescriptionViewModel>() {
     @Inject
@@ -71,6 +80,44 @@ class FortuneDescriptionFragment: BaseFragment<FragmentFortuneDescriptionBinding
             viewModel.getCurrentDescription(historyId)
             (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fortune_description_fragment_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.findItem(R.id.fortune_description_menu_item)?.let { item ->
+            imageLoader.loadInto(
+                R.drawable.description_fortune_item,
+                item,
+                requireContext(),
+                resources
+            )
+        }
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.fortune_description_menu_item -> {
+                launch(bgDispatcher) {
+                    val idFortune = viewModel.getDescriptionId(historyId)
+                    withContext(coroutineContext) {
+                        FortuneDescriptionDialog
+                            .newInstance(idFortune)
+                            .show(childFragmentManager, FORTUNE_DESCRIPTION_DIALOG_TAG)
+                    }
+                }
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
     }
 
     override fun observeData() {
