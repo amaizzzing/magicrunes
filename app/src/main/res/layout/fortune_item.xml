@@ -48,7 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerInside"
-        android:alpha="0.85"
+        android:alpha="0.8"
         android:layout_marginTop="@dimen/margin_5"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent=".55"
