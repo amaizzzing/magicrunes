@@ -15,11 +15,13 @@ import com.magicrunes.magicrunes.R
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
 import com.magicrunes.magicrunes.data.services.image.ImageService
 import com.magicrunes.magicrunes.domain.interactors.fortuneinteractor.IFortuneInteractor
+import com.magicrunes.magicrunes.ui.customView.RuneImageView
 import com.magicrunes.magicrunes.utils.setInvisible
 import com.magicrunes.magicrunes.utils.setVisible
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
+import kotlin.random.Random
 
 const val FORTUNE_ID = "FORTUNE_ID"
 const val FORTUNE_DESCRIPTION_DIALOG_TAG = "AddCommentDialogFragment"
@@ -62,6 +64,12 @@ class FortuneDescriptionDialog: DialogFragment(), CoroutineScope {
         val pb = view.findViewById<ProgressBar>(R.id.pb_fortune_description)
         container.setInvisible()
         pb.setVisible()
+
+        val imageBackdrop = view.findViewById<ImageView>(R.id.image_backdrop_description)
+        imageViewLoader.loadInto(
+            imageService.getImageResource("rune_default_backdrop_${Random.nextInt(1, 6)}"),
+            imageBackdrop
+        )
 
         launch(Dispatchers.IO) {
             fortuneId?.let { id ->

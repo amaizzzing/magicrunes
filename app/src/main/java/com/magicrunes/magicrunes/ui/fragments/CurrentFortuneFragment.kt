@@ -23,6 +23,7 @@ import com.magicrunes.magicrunes.ui.fragments.currentfortunestrategies.ICurrentF
 import com.magicrunes.magicrunes.ui.states.BaseState
 import com.magicrunes.magicrunes.ui.states.CurrentFortuneState
 import com.magicrunes.magicrunes.ui.viewmodels.CurrentFortuneViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -49,13 +50,15 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
 
     private var runesList = mutableListOf<Pair<RuneImageView?, Int>>()
 
+    private var showFortuneJob: Job? = null
+
     override fun setupViews() {
         showAnimatedButtonText(getString(R.string.show_start_text))
 
         binding?.cvButtonFortuneShow?.setOnClickListener {
             when(currentFortuneState) {
                 CurrentFortuneState.BeforeShowing -> {
-                    beforeShowingClick()
+                    showFortuneJob = beforeShowingClick()
                 }
                 CurrentFortuneState.Showing -> {
                     Toast.makeText(requireContext(), getString(R.string.creating_fortune), Toast.LENGTH_SHORT).show()
@@ -249,6 +252,7 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
 
     override fun onDestroyView() {
         (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        showFortuneJob?.cancel()
         super.onDestroyView()
     }
 }
