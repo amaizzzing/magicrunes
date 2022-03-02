@@ -141,7 +141,7 @@ class FortuneFragment: BaseFragment<FragmentFortuneBinding, FortuneFragmentViewM
             viewModel.updateFavouriteFortune(oldFortuneList[position].id, it.isFavourite)
         }
         newList = newList
-            .sortedWith(compareBy<FortuneModel> { it.isFavourite }.thenBy { it.dateInMillis })
+            .sortedWith(compareBy<FortuneModel> { it.isFavourite }.thenBy { it.dateInMillis }.thenByDescending { it.currentStrategy?.visibleRuneList?.size })
             .reversed()
 
         diffUtilUpdates(newList)

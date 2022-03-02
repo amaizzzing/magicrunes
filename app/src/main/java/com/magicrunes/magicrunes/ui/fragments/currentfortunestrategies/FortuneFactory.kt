@@ -9,6 +9,10 @@ class FortuneFactory {
             4L -> Fortune4Runes()
             5L -> FortuneChakr()
             6L -> FortuneLover()
+            7L -> FortuneMarriageForecast()
+            8L -> FortuneRelationshipAnalysis()
+            9L -> FortuneBadLuckReasons()
+            10L -> FortuneFearsReality()
 
             else -> FastFortune()
         }

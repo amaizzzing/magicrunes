@@ -21,7 +21,7 @@ class FortuneInteractor(
 
                     FortuneModel(it, lastDate, fortuneFactory.createFortune(it.id))
                 }
-                .sortedWith(compareBy<FortuneModel> { it.isFavourite }.thenBy { it.dateInMillis })
+                .sortedWith(compareBy<FortuneModel> { it.isFavourite }.thenBy { it.dateInMillis }.thenByDescending { it.currentStrategy?.visibleRuneList?.size })
                 .reversed()
 
         return BaseState.Success(resultList)
