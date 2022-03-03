@@ -131,9 +131,7 @@ class CurrentFortuneFragment: BaseFragment<FragmentCurrentFortuneBinding, Curren
                             runeImageView as ImageView
                         )
                         (runeImageView as ImageView).apply {
-                            if (runeModel.isReverse) {
-                                rotation = 180f
-                            }
+                            rotation = if (runeModel.isReverse) 180f else 0f
                             alpha = 0f
                             animate().alpha(1.0f).setDuration(1000).start()
                         }

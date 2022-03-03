@@ -140,9 +140,8 @@ class FortuneDescriptionFragment: BaseFragment<FragmentFortuneDescriptionBinding
                 )
 
                 imageRuneFotuneDescription.animate()?.alpha(1f)?.setDuration(400)?.start()
-                if (runeList[position].isReverse) {
-                    imageRuneFotuneDescription.rotation = 180f
-                }
+                imageRuneFotuneDescription.rotation =
+                    if (runeList[position].isReverse) 180f else 0f
 
                 viewPager.adapter?.notifyItemChanged(position)
             }

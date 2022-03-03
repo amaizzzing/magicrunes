@@ -38,7 +38,8 @@ class HistoryFragmentAdapter(
                 binding.imageHistoryRune,
                 16
             )
-            if (isReverse) binding.imageHistoryRune.rotation = 180f
+            binding.imageHistoryRune.rotation =
+                if (isReverse) 180f else 0f
         }
 
         override fun setDate(date: String) {
