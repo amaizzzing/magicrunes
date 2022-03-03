@@ -48,7 +48,7 @@ data class HistoryModel(
         comment = historyFortuneDbEntity.comment,
         date = DateUtils.getStringDate(historyFortuneDbEntity.date),
         dateInMillis = historyFortuneDbEntity.date,
-        state = 1,
+        state = 0,
         historyType = HistoryType.FortuneType
     )
 }

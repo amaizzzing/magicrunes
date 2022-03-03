@@ -15,10 +15,11 @@ import com.magicrunes.magicrunes.di.factory.ViewModelFactory
 import com.magicrunes.magicrunes.ui.adapters.FortuneDiffUtilCallback
 import com.magicrunes.magicrunes.ui.adapters.FortuneFragmentAdapter
 import com.magicrunes.magicrunes.ui.adapters.presenters.fortune.IFortuneListPresenter
+import com.magicrunes.magicrunes.ui.dialogs.FORTUNE_DESCRIPTION_DIALOG_TAG
+import com.magicrunes.magicrunes.ui.dialogs.FortuneDescriptionDialog
 import com.magicrunes.magicrunes.ui.models.lists.FortuneModel
 import com.magicrunes.magicrunes.ui.states.BaseState
 import com.magicrunes.magicrunes.ui.viewmodels.FortuneFragmentViewModel
-import java.util.*
 import javax.inject.Inject
 
 const val REQUEST_KEY = "fortuneStrategy"
@@ -51,6 +52,11 @@ class FortuneFragment: BaseFragment<FragmentFortuneBinding, FortuneFragmentViewM
 
         fortuneListPresenter.favouriteClickListener = { position ->
             changeFavouritePosition(position)
+        }
+        fortuneListPresenter.descriptionClickListener = { position ->
+            FortuneDescriptionDialog
+                .newInstance(fortuneListPresenter.getList()[position].id)
+                .show(childFragmentManager, FORTUNE_DESCRIPTION_DIALOG_TAG)
         }
     }
 
@@ -126,38 +132,27 @@ class FortuneFragment: BaseFragment<FragmentFortuneBinding, FortuneFragmentViewM
 
     private fun changeFavouritePosition(position: Int) {
         val oldFortuneList = fortuneListPresenter.getList()
-        val newList = ArrayList(oldFortuneList.map { it.copy() })
-        val element = newList[position]
+        val changedId = oldFortuneList[position].id
 
-        element.isFavourite = !element.isFavourite
+        var newList = oldFortuneList.map { it.copy() }
 
-        viewModel.updateFavouriteFortune(element.id, element.isFavourite)
-
-        newList.removeAt(position)
-
-        var index = 0
-        oldFortuneList.find{ it.isFavourite == element.isFavourite && it.dateInMillis < element.dateInMillis}?.let {
-            index = oldFortuneList.indexOf(it)
-            newList.add(index, element)
-        } ?: run {
-            if (element.isFavourite) {
-                index = 0
-                newList.add(0, element)
-            } else {
-                index = newList.size
-                newList.add(newList.size, element)
-            }
+        newList.find { it.id == changedId }?.let {
+            it.isFavourite = !it.isFavourite
+            viewModel.updateFavouriteFortune(oldFortuneList[position].id, it.isFavourite)
         }
+        newList = newList
+            .sortedWith(compareBy<FortuneModel> { it.isFavourite }.thenBy { it.dateInMillis }.thenByDescending { it.currentStrategy?.visibleRuneList?.size })
+            .reversed()
 
         diffUtilUpdates(newList)
-
-        binding?.rvFortune?.scrollToPosition(index)
     }
 
     private fun diffUtilUpdates(list: List<FortuneModel>) {
-        val fortuneDiffUtilCallback = FortuneDiffUtilCallback(fortuneListPresenter.getList(), list)
-        val diffResult = DiffUtil.calculateDiff(fortuneDiffUtilCallback, true)
-        fortuneListPresenter.setList(list)
-        diffResult.dispatchUpdatesTo(adapter!!)
+        adapter?.let {
+            val fortuneDiffUtilCallback = FortuneDiffUtilCallback(fortuneListPresenter.getList(), list)
+            val diffResult = DiffUtil.calculateDiff(fortuneDiffUtilCallback, true)
+            fortuneListPresenter.setList(list)
+            diffResult.dispatchUpdatesTo(it)
+        }
     }
 }

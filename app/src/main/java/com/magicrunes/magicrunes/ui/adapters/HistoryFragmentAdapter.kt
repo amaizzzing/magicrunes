@@ -35,7 +35,8 @@ class HistoryFragmentAdapter(
         override fun setRuneImage(runeName: String, isReverse: Boolean) {
             imageLoader.loadInto(
                 imageService.getImageResource(runeName),
-                binding.imageHistoryRune
+                binding.imageHistoryRune,
+                16
             )
             if (isReverse) binding.imageHistoryRune.rotation = 180f
         }

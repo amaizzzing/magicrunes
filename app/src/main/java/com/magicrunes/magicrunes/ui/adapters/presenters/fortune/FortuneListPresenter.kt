@@ -26,12 +26,13 @@ class FortuneListPresenter: IFortuneListPresenter {
     override var favouriteClickListener: ((pos: Int) -> Unit)? = null
     override var itemClickListener: ((FortuneItemView) -> Unit)? = null
     override var modelClickListener: ((pos: Int) -> Unit)? = null
+    override var descriptionClickListener: ((pos: Int) -> Unit)? = null
 
     override fun bindView(view: FortuneItemView) {
         val fortune = fortuneList[view.pos]
 
         view.setFortuneName(fortune.nameFortune)
-        view.setFortuneDescription(fortune.description)
+        view.setCountRunes(fortune.currentStrategy?.visibleRuneList?.size.toString())
         view.setDate(fortune.date)
         view.setFortuneImage(fortune.image)
         view.setFavouriteImage(

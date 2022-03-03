@@ -21,9 +21,19 @@ class FortuneInteractor(
 
                     FortuneModel(it, lastDate, fortuneFactory.createFortune(it.id))
                 }
-                .sortedBy { !it.isFavourite }
+                .sortedWith(compareBy<FortuneModel> { it.isFavourite }.thenBy { it.dateInMillis }.thenByDescending { it.currentStrategy?.visibleRuneList?.size })
+                .reversed()
 
         return BaseState.Success(resultList)
+    }
+
+    override suspend fun getFortuneById(id: Long): FortuneModel? {
+        val fortune = fortuneRepository.getFortuneById(id)
+        return fortune?.let { currentFortune ->
+            val lastDate =
+                historyFortuneRepositoryFactory.getFortuneRepository().getLastInHistoryByIdFortune(currentFortune.id)?.date ?: 0L
+            FortuneModel(currentFortune, lastDate, fortuneFactory.createFortune(currentFortune.id))
+        }
     }
 
     override suspend fun updateFavouriteFortune(id: Long, state: Boolean) {

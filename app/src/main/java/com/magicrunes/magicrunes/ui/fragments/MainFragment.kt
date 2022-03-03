@@ -124,7 +124,7 @@ class MainFragment:
 
     private fun showAddCommentDialog() {
         AddCommentDialogFragment
-            .newInstance()
+            .newInstance(historyDate)
             .show(childFragmentManager, COMMENT_DIALOG_TAG)
     }
 
@@ -246,7 +246,9 @@ class MainFragment:
             viewModel.getRuneDescription(historyDate)
             (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
-        viewModel.getRuneOfTheDay()
+        if (historyDate == -1L) {
+            viewModel.getRuneOfTheDay()
+        }
     }
 
     override fun onCloseAddCommentDialog(newComment: String) {

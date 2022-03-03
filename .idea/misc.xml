@@ -6,9 +6,18 @@
         <entry key="../../.gradle/caches/transforms-2/files-2.1/23f4d750d4a3f0d5decf3d76ecd40b37/play-services-base-17.1.0/res/drawable/common_google_signin_btn_icon_light.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/drawable/account_image.xml" value="0.2712962962962963" />
         <entry key="app/src/main/res/drawable/account_image_grey.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/drawable/description_fortune_item.xml" value="0.22685185185185186" />
         <entry key="app/src/main/res/drawable/round_corners.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.27282051282051284" />
+        <entry key="app/src/main/res/layout/current_fortune_description_item.xml" value="0.24259259259259258" />
         <entry key="app/src/main/res/layout/dialog_sign_in.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_to_the_rune.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/fortune_description_dialog.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fortune_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_fortune.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/fragment_fortune_description.xml" value="0.24259259259259258" />
+        <entry key="app/src/main/res/layout/fragment_history.xml" value="0.24512820512820513" />
+        <entry key="app/src/main/res/menu/fortune_description_fragment_menu.xml" value="0.24259259259259258" />
         <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.25" />
       </map>
     </option>

@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.view.MenuItem
+import android.widget.ImageView
 
 interface IImageLoader<T> {
     fun loadInto(source: Int, container: T)
+    fun loadInto(source: Int, container: ImageView, roundCorners: Int)
 
     fun loadInto(source: Bitmap, container: T)
 

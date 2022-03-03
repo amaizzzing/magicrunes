@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.magicrunes.magicrunes.R
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
 import com.magicrunes.magicrunes.data.services.image.ImageService
 import com.magicrunes.magicrunes.databinding.FortuneItemBinding
@@ -28,14 +29,16 @@ class FortuneFragmentAdapter (
             binding.fortuneNameItem.text = fortuneName
         }
 
-        override fun setFortuneDescription(description: String) {
-            binding.fortuneDescriptionItem.text = description
+        override fun setCountRunes(countRunes: String) {
+            binding.fortuneCountRunes.text =
+                binding.fortuneCountRunes.context.getString(R.string.count_runes, countRunes)
         }
 
         override fun setFortuneImage(fortuneName: String) {
             imageLoader.loadInto(
                 imageService.getImageResource(fortuneName),
-                binding.fortuneImageItem
+                binding.fortuneImageItem,
+                24
             )
         }
 
@@ -69,6 +72,9 @@ class FortuneFragmentAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.favFortuneItem.setOnClickListener {
             presenter.favouriteClickListener?.invoke(holder.adapterPosition)
+        }
+        holder.binding.descriptionFortuneItem.setOnClickListener {
+            presenter.descriptionClickListener?.invoke(holder.adapterPosition)
         }
 
         return presenter.bindView(holder.apply { pos = position })

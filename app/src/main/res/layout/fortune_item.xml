@@ -12,12 +12,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.55"/>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_end_horiz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.88"/>
+        app:layout_constraintGuide_begin="254dp" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start_text_vert"
         android:layout_width="wrap_content"
@@ -47,6 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerInside"
+        android:alpha="0.8"
         android:layout_marginTop="@dimen/margin_5"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent=".55"
@@ -63,12 +65,12 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_start_text_vert"
         app:layout_constraintEnd_toEndOf="@+id/guideline_end_text_vert"
         app:layout_constraintTop_toTopOf="@id/guideline_start_horiz"
-        app:layout_constraintBottom_toTopOf="@+id/fortune_description_item"/>
+        app:layout_constraintBottom_toTopOf="@+id/fortune_count_runes"/>
     <TextView
-        android:id="@+id/fortune_description_item"
+        android:id="@+id/fortune_count_runes"
         style="@style/item_fortune_description_text_style"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_2"
         app:layout_constraintStart_toStartOf="@+id/guideline_start_text_vert"
         app:layout_constraintEnd_toEndOf="@+id/guideline_end_text_vert"
@@ -99,8 +101,18 @@
         android:layout_width="@dimen/fortune_item_like_image"
         android:layout_height="@dimen/fortune_item_like_image"
         android:src="@drawable/favourite_dis"
+        android:layout_marginEnd="8dp"
         app:layout_constraintVertical_bias="0.65"
-        app:layout_constraintEnd_toEndOf="@id/guideline_end_vert"
+        app:layout_constraintEnd_toStartOf="@id/description_fortune_item"
         app:layout_constraintTop_toTopOf="@id/guideline_end_horiz"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <ImageView
+        android:id="@+id/description_fortune_item"
+        android:layout_width="@dimen/fortune_item_like_image"
+        android:layout_height="@dimen/fortune_item_like_image"
+        android:src="@drawable/description_fortune_item"
+        app:layout_constraintVertical_bias="0.65"
+        app:layout_constraintTop_toTopOf="@id/guideline_end_horiz"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end_vert"
         app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,7 +31,7 @@ class HistoryInteractor(
             fortuneRepository.getFortuneById(history.idFortune)?.let { fortune ->
                 HistoryModel(fortune, history)
             }
-        }
+        }.sortedByDescending { it?.dateInMillis }
 
     private suspend fun getHistoryRuneModelList(): List<HistoryModel?> =
         historyRuneRepositoryFactory.getHistoryRuneRepository().getAllHistory().map { history ->
@@ -40,7 +40,7 @@ class HistoryInteractor(
                     HistoryModel(rune, description, history)
                 }
             }
-        }
+        }.sortedByDescending { it?.dateInMillis }
 
     private suspend fun getAllHistoryModelList(): List<HistoryModel?> =
         (getHistoryRuneModelList() + getFortuneHistoryModelList()).sortedByDescending { it?.dateInMillis }
