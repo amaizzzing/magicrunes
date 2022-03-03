@@ -6,16 +6,23 @@
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">@color/purple_500</item>
+        <item name="colorSecondaryVariant">@color/purple_500</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="bottomNavigationStyle">@style/bottom_nav_style</item>
     </style>
 
     <style name="ThemeOverlay.MagicRunes.AppWidgetContainer" parent="">
-        <item name="appWidgetBackgroundColor">@color/light_blue_900</item>
-        <item name="appWidgetTextColor">@color/light_blue_200</item>
+        <item name="appWidgetBackgroundColor">@color/purple_700</item>
+        <item name="appWidgetTextColor">@color/purple_200</item>
+    </style>
+
+    <style name="bottom_nav_style">
+        <item name="itemIconTint">@color/bottom_nav_color_state</item>
+        <item name="itemTextColor">@color/bottom_nav_color_state</item>
+        <item name="android:background">?attr/colorPrimary</item>
     </style>
 </resources>

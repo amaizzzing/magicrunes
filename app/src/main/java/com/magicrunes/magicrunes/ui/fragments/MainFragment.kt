@@ -198,9 +198,7 @@ class MainFragment:
                             imageService.getImageResource(it.image),
                             runeImageMainFragment as ImageView
                         )
-                        if (it.isReverse) {
-                            runeImageMainFragment.rotation = 180f
-                        }
+                        runeImageMainFragment.rotation = if (it.isReverse) 180f else 0f
 
                         avrevNameMainFragment.text =
                             if (it.isReverse) {
