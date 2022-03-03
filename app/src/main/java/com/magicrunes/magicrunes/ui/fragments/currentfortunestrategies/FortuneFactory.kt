@@ -13,6 +13,10 @@ class FortuneFactory {
             8L -> FortuneRelationshipAnalysis()
             9L -> FortuneBadLuckReasons()
             10L -> FortuneFearsReality()
+            11L -> FortuneWhoAmI()
+            12L -> FortunePyramid()
+            13L -> FortuneMoonSecrets()
+            14L -> FortuneFatePentagram()
 
             else -> FastFortune()
         }
