@@ -102,4 +102,15 @@ class RuneOfTheDayInteractor(
         historyRuneRepositoryFactory.getHistoryRuneRepository().getLastRune()?.let { lastHistory ->
              (DateUtils.isTheSameDay(DateTime(lastHistory.date), DateTime()))
         } ?: false
+
+    override suspend fun updateNotificationShow(isNotificationShow: Int, historyDate: Long) {
+        historyRuneRepositoryFactory.getHistoryRuneRepository().updateNotificationShow(isNotificationShow, historyDate)
+    }
+
+    override suspend fun getLastRuneFromHistory(): BaseState {
+        val lastRune = historyRuneRepositoryFactory.getHistoryRuneRepository().getLastRune()
+        return lastRune?.let {
+            BaseState.Success(it)
+        } ?: BaseState.Error(IllegalArgumentException())
+    }
 }

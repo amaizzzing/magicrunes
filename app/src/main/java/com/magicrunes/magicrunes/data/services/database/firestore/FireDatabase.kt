@@ -64,7 +64,8 @@ class FireDatabase(
                         "idRune" to historyRune.idRune.toString(),
                         "date" to historyRune.date.toString(),
                         "comment" to historyRune.comment,
-                        "state" to historyRune.state.toString()
+                        "state" to historyRune.state.toString(),
+                        "isNotificationShow" to historyRune.isNotificationShow.toString()
                     )
 
                 historyRuneList?.let { resultList ->
@@ -464,6 +465,7 @@ class FireDatabase(
         comment: String,
         state: Int,
         syncState: Int,
+        isNotificationShow: Int,
         historyDate: Long
     ): Result<Unit> {
         var res:Result<Unit> = Result.success(Unit)
@@ -480,6 +482,7 @@ class FireDatabase(
                     "comment" to comment,
                     "state" to state.toString(),
                     "syncState" to syncState.toString(),
+                    "isNotificationShow" to isNotificationShow.toString(),
                     "date" to historyDate.toString()
                 )
 
@@ -492,6 +495,7 @@ class FireDatabase(
                         dbEntity["comment"] = comment
                         dbEntity["state"] = state.toString()
                         dbEntity["syncState"] = syncState.toString()
+                        dbEntity["isNotificationShow"] = isNotificationShow.toString()
                         dbEntity["date"] = historyDate.toString()
                     } ?: resultList.add(newHistoryRune)
 
@@ -502,6 +506,39 @@ class FireDatabase(
                     db.collection("users")
                         .document(idUser)
                         .update("historyRune", listOf(newHistoryRune))
+                }
+            }
+            .addOnFailureListener {
+                res = Result.failure(it)
+            }
+            .await()
+
+        return res
+    }
+
+    override suspend fun updateNotificationShow(
+        idUser: String,
+        isNotificationShow: Int,
+        historyDate: Long
+    ): Result<Unit> {
+        var res:Result<Unit> = Result.success(Unit)
+
+        db.collection("users")
+            .document(idUser)
+            .get()
+            .addOnSuccessListener { doc ->
+                val historyRuneList = doc.get("historyRune")
+
+                historyRuneList?.let { resultList ->
+                    resultList as ArrayList<HashMap<String, String>>
+
+                    resultList.find { (it["date"] as String).toLong() == historyDate }?.let { dbEntity ->
+                        dbEntity["isNotificationShow"] = isNotificationShow.toString()
+                    }
+
+                    db.collection("users")
+                        .document(idUser)
+                        .update("historyRune", resultList)
                 }
             }
             .addOnFailureListener {

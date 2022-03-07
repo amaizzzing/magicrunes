@@ -1,6 +1,7 @@
 package com.magicrunes.magicrunes.di.components
 
 import com.magicrunes.magicrunes.MagicRunesApp
+import com.magicrunes.magicrunes.data.services.background.AlarmManagerBroadcastReceiver
 import com.magicrunes.magicrunes.data.services.network.IGoogleService
 import com.magicrunes.magicrunes.di.WorkerModule
 import com.magicrunes.magicrunes.di.modules.*
@@ -32,9 +33,11 @@ import javax.inject.Singleton
         InteractorModule::class,
         AdaptersPresenterModule::class,
         AnimationHelperModule::class,
-        WorkerModule::class
+        WorkerModule::class,
+        BroadcastReceiverModule::class
     ]
 )
+
 interface AppComponent: AndroidInjector<MagicRunesApp> {
     @Component.Builder
     interface Builder {
@@ -67,6 +70,8 @@ interface AppComponent: AndroidInjector<MagicRunesApp> {
     fun inject(fortuneListPresenter: FortuneListPresenter)
 
     fun inject(runeOfTheDayWidget: RuneOfTheDayWidget)
+
+    fun inject(alarmManagerBroadcastReceiver: AlarmManagerBroadcastReceiver)
 
     fun getGoogleService(): IGoogleService
 }

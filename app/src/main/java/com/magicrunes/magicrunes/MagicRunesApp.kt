@@ -1,8 +1,10 @@
 package com.magicrunes.magicrunes
 
-import androidx.work.*
-import com.magicrunes.magicrunes.data.services.background.BackgroundRuneService
-import com.magicrunes.magicrunes.di.DaggerAwareWorkerFactory
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import com.magicrunes.magicrunes.data.services.background.AlarmManagerBroadcastReceiver
 import com.magicrunes.magicrunes.di.components.AppComponent
 import com.magicrunes.magicrunes.di.components.DaggerAppComponent
 import dagger.android.AndroidInjector
@@ -11,40 +13,20 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
+import org.joda.time.DateTime
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-
-val WORK_NAME = "RUNE_WORK"
 
 class MagicRunesApp: DaggerApplication() {
-    @Inject
-    lateinit var daggerAwareWorkerFactory: DaggerAwareWorkerFactory
-
-    private fun configureWorkManager() {
-        val config = Configuration.Builder()
-            .setWorkerFactory(daggerAwareWorkerFactory)
-            .build()
-        WorkManager.initialize(this, config)
-    }
-
     override fun onCreate() {
         super.onCreate()
 
         instance = this
 
         appComponent = applicationInjector() as AppComponent
+
         initDispatchers()
 
-        configureWorkManager()
-
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            PeriodicWorkRequestBuilder<BackgroundRuneService>(1, TimeUnit.HOURS)
-                .setInitialDelay(30, TimeUnit.MINUTES)
-                .setConstraints(Constraints.NONE)
-                .build())
+        createAlarmManager()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -54,13 +36,28 @@ class MagicRunesApp: DaggerApplication() {
             .build()
     }
 
-    fun initDispatchers() {
+    private fun createAlarmManager() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlarmManagerBroadcastReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 1001,
+            intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            DateTime.now().millis,
+            AlarmManager.INTERVAL_HALF_DAY,
+            pendingIntent
+        )
+    }
+
+    private fun initDispatchers() {
         backgroundTaskDispatcher = Dispatchers.Default
 
         orderedBackgroundTaskDispatcher = Executors.newSingleThreadExecutor {
             Thread(it, "OrderedDispatcher")
         }.asCoroutineDispatcher()
     }
+
     companion object {
         lateinit var instance: MagicRunesApp
 

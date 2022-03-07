@@ -15,7 +15,6 @@ import com.magicrunes.magicrunes.R
 import com.magicrunes.magicrunes.data.services.image.IImageLoader
 import com.magicrunes.magicrunes.data.services.image.ImageService
 import com.magicrunes.magicrunes.domain.interactors.fortuneinteractor.IFortuneInteractor
-import com.magicrunes.magicrunes.ui.customView.RuneImageView
 import com.magicrunes.magicrunes.utils.setInvisible
 import com.magicrunes.magicrunes.utils.setVisible
 import kotlinx.coroutines.*

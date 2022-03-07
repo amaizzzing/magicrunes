@@ -24,6 +24,9 @@ abstract class HistoryRuneDao: BaseDao<HistoryRuneDbEntity>() {
     @Query("UPDATE HistoryRuneDbEntity SET comment = :comment WHERE date = :historyDate")
     abstract suspend fun updateComment(historyDate: Long, comment: String)
 
-    @Query("UPDATE HistoryRuneDbEntity SET idRune = :idRune, comment = :comment, state = :state, syncState = :syncState WHERE date = :historyDate")
-    abstract suspend fun updateByDate(idRune: Long, comment: String, state: Int, syncState: Int, historyDate: Long)
+    @Query("UPDATE HistoryRuneDbEntity SET idRune = :idRune, comment = :comment, state = :state, syncState = :syncState, isNotificationShow = :isNotificationShow WHERE date = :historyDate")
+    abstract suspend fun updateByDate(idRune: Long, comment: String, state: Int, syncState: Int, isNotificationShow: Int, historyDate: Long)
+
+    @Query("UPDATE HistoryRuneDbEntity SET isNotificationShow = :isNotificationShow WHERE date = :historyDate")
+    abstract suspend fun updateNotificationShow(isNotificationShow: Int, historyDate: Long)
 }

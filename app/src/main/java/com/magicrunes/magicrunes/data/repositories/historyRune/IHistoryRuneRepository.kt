@@ -18,6 +18,9 @@ interface IHistoryRuneRepository {
         comment: String,
         state: Int,
         syncState: Int,
+        isNotificationShow: Int,
         historyDate: Long
     )
+
+    suspend fun updateNotificationShow(isNotificationShow: Int, historyDate: Long)
 }

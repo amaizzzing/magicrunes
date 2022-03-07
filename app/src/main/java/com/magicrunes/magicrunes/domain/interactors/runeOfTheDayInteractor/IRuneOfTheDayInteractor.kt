@@ -21,4 +21,8 @@ interface IRuneOfTheDayInteractor {
     suspend fun getRuneFromHistory(historyDate: Long): BaseState
 
     suspend fun isTodayRune(): Boolean
+
+    suspend fun updateNotificationShow(isNotificationShow: Int, historyDate: Long)
+
+    suspend fun getLastRuneFromHistory(): BaseState
 }
