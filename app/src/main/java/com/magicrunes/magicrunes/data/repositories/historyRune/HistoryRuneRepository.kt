@@ -28,8 +28,13 @@ class HistoryRuneRepository(
         comment: String,
         state: Int,
         syncState: Int,
+        isNotificationShow: Int,
         historyDate: Long
     ) {
-        dbService.historyRuneDao.updateByDate(idRune, comment, state, syncState, historyDate)
+        dbService.historyRuneDao.updateByDate(idRune, comment, state, syncState, isNotificationShow, historyDate)
+    }
+
+    override suspend fun updateNotificationShow(isNotificationShow: Int, historyDate: Long) {
+        dbService.historyRuneDao.updateNotificationShow(isNotificationShow, historyDate)
     }
 }

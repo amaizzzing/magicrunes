@@ -22,8 +22,11 @@ import com.magicrunes.magicrunes.data.services.resource.IResourceService
 import com.magicrunes.magicrunes.databinding.ActivityMainBinding
 import com.magicrunes.magicrunes.ui.dialogs.SignInDialog
 import com.magicrunes.magicrunes.ui.widget.RuneOfTheDayWidget
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 

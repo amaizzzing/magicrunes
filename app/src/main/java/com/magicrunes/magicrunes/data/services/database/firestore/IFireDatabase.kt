@@ -37,6 +37,13 @@ interface IFireDatabase {
         comment: String,
         state: Int,
         syncState: Int,
+        isNotificationShow: Int,
+        historyDate: Long
+    ): Result<Unit>
+
+    suspend fun updateNotificationShow(
+        idUser: String,
+        isNotificationShow: Int,
         historyDate: Long
     ): Result<Unit>
 }

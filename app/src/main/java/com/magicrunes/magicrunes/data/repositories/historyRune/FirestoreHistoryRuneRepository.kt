@@ -39,6 +39,7 @@ class FirestoreHistoryRuneRepository(
         comment: String,
         state: Int,
         syncState: Int,
+        isNotificationShow: Int,
         historyDate: Long
     ) {
         val idUser = localDB.userInfoDao.getUserInfo()?.idGoogle ?: ""
@@ -48,6 +49,16 @@ class FirestoreHistoryRuneRepository(
             comment,
             state,
             syncState,
+            isNotificationShow,
+            historyDate
+        )
+    }
+
+    override suspend fun updateNotificationShow(isNotificationShow: Int, historyDate: Long) {
+        val idUser = localDB.userInfoDao.getUserInfo()?.idGoogle ?: ""
+        firestoreDB.updateNotificationShow(
+            idUser,
+            isNotificationShow,
             historyDate
         )
     }

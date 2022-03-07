@@ -15,13 +15,14 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-class HistoryRuneDbEntity(): BaseRoom() {
+class HistoryRuneDbEntity(
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0
-    var date: Long = 0
+    var id: Long = 0,
+    var date: Long = 0,
     @ColumnInfo(index = true)
-    var idRune: Long = 0
-    var comment: String = ""
-    var state: Int = 0
-    var syncState: Int = 0
-}
+    var idRune: Long = 0,
+    var comment: String = "",
+    var state: Int = 0,
+    var syncState: Int = 0,
+    var isNotificationShow: Int = 0,
+): BaseRoom()

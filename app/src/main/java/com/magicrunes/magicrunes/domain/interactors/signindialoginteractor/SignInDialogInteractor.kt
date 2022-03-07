@@ -45,6 +45,7 @@ class SignInDialogInteractor(
                             firestoreLastRune.comment,
                             firestoreLastRune.state,
                             firestoreLastRune.syncState,
+                            firestoreLastRune.isNotificationShow,
                             localLastRune.date
                         )
                     } else {
@@ -63,6 +64,7 @@ class SignInDialogInteractor(
                         localLastRune.comment,
                         localLastRune.state,
                         localLastRune.syncState,
+                        localLastRune.isNotificationShow,
                         firestoreLastRune.date
                     )
                 }
