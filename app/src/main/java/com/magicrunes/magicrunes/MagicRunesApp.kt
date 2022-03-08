@@ -39,12 +39,16 @@ class MagicRunesApp: DaggerApplication() {
     private fun createAlarmManager() {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlarmManagerBroadcastReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 1001,
-            intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            1001,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            DateTime.now().millis,
+            DateTime.now().millis + 1000 * 60 * 60,
             AlarmManager.INTERVAL_HALF_DAY,
             pendingIntent
         )
