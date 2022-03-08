@@ -20,6 +20,8 @@ import com.magicrunes.magicrunes.domain.interactors.fortuneinteractor.FortuneInt
 import com.magicrunes.magicrunes.domain.interactors.fortuneinteractor.IFortuneInteractor
 import com.magicrunes.magicrunes.domain.interactors.historyInteractor.HistoryInteractor
 import com.magicrunes.magicrunes.domain.interactors.historyInteractor.IHistoryInteractor
+import com.magicrunes.magicrunes.domain.interactors.notificationinteractor.INotificationInteractor
+import com.magicrunes.magicrunes.domain.interactors.notificationinteractor.NotificationInteractor
 import com.magicrunes.magicrunes.domain.interactors.runeInfoInteractor.IRuneInfoInteractor
 import com.magicrunes.magicrunes.domain.interactors.runeInfoInteractor.RuneInfoInteractor
 import com.magicrunes.magicrunes.domain.interactors.runeOfTheDayInteractor.IRuneOfTheDayInteractor
@@ -100,4 +102,11 @@ class InteractorModule {
         historyRuneRepository: IHistoryRuneRepository,
         firestoreHistoryRuneRepository: FirestoreHistoryRuneRepository
     ): ISignInDialogInteractor = SignInDialogInteractor(userInfoRepository, historyRuneRepository, firestoreHistoryRuneRepository)
+
+    @Singleton
+    @Provides
+    fun notificationInteractor(
+        historyRuneRepositoryFactory: HistoryRuneRepositoryFactory,
+        fortuneRepository: IFortuneRepository
+    ): INotificationInteractor = NotificationInteractor(historyRuneRepositoryFactory, fortuneRepository)
 }
