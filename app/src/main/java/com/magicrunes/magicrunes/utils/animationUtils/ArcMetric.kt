@@ -103,14 +103,16 @@ class ArcMetric {
     }
 
     private fun calcZeroPoint() {
-        when (mSide) {
-            Side.RIGHT -> {
-                mZeroPoint.x = mAxisPoint[Side.RIGHT.value]!!.x + mRadius
-                mZeroPoint.y = mAxisPoint[Side.RIGHT.value]!!.y
-            }
-            Side.LEFT -> {
-                mZeroPoint.x = mAxisPoint[Side.LEFT.value]!!.x - mRadius
-                mZeroPoint.y = mAxisPoint[Side.LEFT.value]!!.y
+        mSide?.let {
+            when (it) {
+                Side.RIGHT -> {
+                    mZeroPoint.x = mAxisPoint[Side.RIGHT.value]!!.x + mRadius
+                    mZeroPoint.y = mAxisPoint[Side.RIGHT.value]!!.y
+                }
+                Side.LEFT -> {
+                    mZeroPoint.x = mAxisPoint[Side.LEFT.value]!!.x - mRadius
+                    mZeroPoint.y = mAxisPoint[Side.LEFT.value]!!.y
+                }
             }
         }
     }
@@ -124,50 +126,53 @@ class ArcMetric {
         mZeroStartDegree = ArcUtils.acos(
             (2 * mRadius.toDouble().pow(2.0) - mZeroStartSegment.toDouble().pow(2.0)) / (2 * mRadius.toDouble().pow(2.0))
         )
-        when (mSide) {
-            Side.RIGHT -> if (mStartPoint.y <= mZeroPoint.y) {
-                if (mStartPoint.y > mEndPoint.y ||
-                    mStartPoint.y == mEndPoint.y && mStartPoint.x > mEndPoint.x
-                ) {
-                    startDegree = mZeroStartDegree
-                    endDegree = startDegree + mAnimationDegree
-                } else {
-                    startDegree = mZeroStartDegree
-                    endDegree = startDegree - mAnimationDegree
+        mSide?.let {
+            when (it) {
+                Side.RIGHT -> if (mStartPoint.y <= mZeroPoint.y) {
+                    if (mStartPoint.y > mEndPoint.y ||
+                        mStartPoint.y == mEndPoint.y && mStartPoint.x > mEndPoint.x
+                    ) {
+                        startDegree = mZeroStartDegree
+                        endDegree = startDegree + mAnimationDegree
+                    } else {
+                        startDegree = mZeroStartDegree
+                        endDegree = startDegree - mAnimationDegree
+                    }
+                } else if (mStartPoint.y >= mZeroPoint.y) {
+                    if (mStartPoint.y < mEndPoint.y ||
+                        mStartPoint.y == mEndPoint.y && mStartPoint.x > mEndPoint.x
+                    ) {
+                        startDegree = 0 - mZeroStartDegree
+                        endDegree = startDegree - mAnimationDegree
+                    } else {
+                        startDegree = 0 - mZeroStartDegree
+                        endDegree = startDegree + mAnimationDegree
+                    }
                 }
-            } else if (mStartPoint.y >= mZeroPoint.y) {
-                if (mStartPoint.y < mEndPoint.y ||
-                    mStartPoint.y == mEndPoint.y && mStartPoint.x > mEndPoint.x
-                ) {
-                    startDegree = 0 - mZeroStartDegree
-                    endDegree = startDegree - mAnimationDegree
-                } else {
-                    startDegree = 0 - mZeroStartDegree
-                    endDegree = startDegree + mAnimationDegree
-                }
-            }
-            Side.LEFT -> if (mStartPoint.y <= mZeroPoint.y) {
-                if (mStartPoint.y > mEndPoint.y ||
-                    mStartPoint.y == mEndPoint.y && mStartPoint.x < mEndPoint.x
-                ) {
-                    startDegree = 180 - mZeroStartDegree
-                    endDegree = startDegree - mAnimationDegree
-                } else {
-                    startDegree = 180 - mZeroStartDegree
-                    endDegree = startDegree + mAnimationDegree
-                }
-            } else if (mStartPoint.y >= mZeroPoint.y) {
-                if (mStartPoint.y < mEndPoint.y ||
-                    mStartPoint.y == mEndPoint.y && mStartPoint.x < mEndPoint.x
-                ) {
-                    startDegree = 180 + mZeroStartDegree
-                    endDegree = startDegree + mAnimationDegree
-                } else {
-                    startDegree = 180 + mZeroStartDegree
-                    endDegree = startDegree - mAnimationDegree
+                Side.LEFT -> if (mStartPoint.y <= mZeroPoint.y) {
+                    if (mStartPoint.y > mEndPoint.y ||
+                        mStartPoint.y == mEndPoint.y && mStartPoint.x < mEndPoint.x
+                    ) {
+                        startDegree = 180 - mZeroStartDegree
+                        endDegree = startDegree - mAnimationDegree
+                    } else {
+                        startDegree = 180 - mZeroStartDegree
+                        endDegree = startDegree + mAnimationDegree
+                    }
+                } else if (mStartPoint.y >= mZeroPoint.y) {
+                    if (mStartPoint.y < mEndPoint.y ||
+                        mStartPoint.y == mEndPoint.y && mStartPoint.x < mEndPoint.x
+                    ) {
+                        startDegree = 180 + mZeroStartDegree
+                        endDegree = startDegree + mAnimationDegree
+                    } else {
+                        startDegree = 180 + mZeroStartDegree
+                        endDegree = startDegree - mAnimationDegree
+                    }
                 }
             }
         }
+
     }
 
     fun setDegree(degree: Float) {

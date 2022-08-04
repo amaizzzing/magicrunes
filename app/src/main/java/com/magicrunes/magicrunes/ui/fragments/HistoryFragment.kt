@@ -133,6 +133,7 @@ class HistoryFragment:
                 when(historyListPresenter.getList()[historyView.pos].historyType) {
                     HistoryType.FortuneType -> { showFortuneDescriptionFragment(historyView.pos) }
                     HistoryType.RuneType -> { showRuneDescriptionFragment(historyView.pos) }
+                    HistoryType.AllHistory -> { println("TO DO!") }
                 }
             }
 

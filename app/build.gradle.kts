@@ -38,6 +38,11 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dependencies.Compose.compose_version_obj
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -74,8 +79,13 @@ dependencies {
     implementation(Dependencies.Worker.workMultiprocess)
     implementation(Dependencies.Worker.workRuntimeKtx)
     implementation(Dependencies.Firebase.firebaseAuth)
-    implementation("com.google.android.gms:play-services-auth:20.0.0")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.0.0")
+    implementation(Dependencies.Compose.composeActivity)
+    implementation(Dependencies.Compose.compose)
+    implementation(Dependencies.Compose.composeCompiler)
+    implementation(Dependencies.Compose.composeLifecycle)
+    implementation(Dependencies.Compose.composeNavigation)
+    implementation("com.google.android.gms:play-services-auth:20.2.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.2.1")
 
     kapt(Dependencies.Room.roomCompiler)
     kapt(Dependencies.Dagger.daggerCompiler)
