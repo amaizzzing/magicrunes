@@ -1,15 +1,15 @@
 import java.util.*
 
-private const val kotlinVersion = "1.5.21"
-private const val kotlinCoreCtxVersion = "1.3.2"
-private const val androidGradleVersion = "4.2.2"
+private const val kotlinVersion = "1.7.0"
+private const val kotlinCoreCtxVersion = "1.8.0"
+private const val androidGradleVersion = "7.2.1"
 
 //support libs
-private const val appcompatVersion = "1.4.0-alpha03"
-private const val constraintLayoutVersion = "2.0.4"
-private const val materialVersion = "1.4.0"
-private const val fragmentVersion = "1.3.2"
-private const val coordinatorLayoutVersion = "1.1.0"
+private const val appcompatVersion = "1.4.2"
+private const val constraintLayoutVersion = "2.1.4"
+private const val materialVersion = "1.6.1"
+private const val fragmentVersion = "1.5.0"
+private const val coordinatorLayoutVersion = "1.2.0"
 
 //test libs
 private const val junitVersion = "4.12"
@@ -20,39 +20,46 @@ private const val espressoVersion = "3.3.0"
 private const val retrofitVersion = "2.9.0"
 
 //room
-private const val roomVersion = "2.3.0"
+private const val roomVersion = "2.4.2"
 private const val roomCompilerVersion = "2.3.0-rc01"
 
 //dagger
-private const val daggerVersion = "2.38.1"
+private const val daggerVersion = "2.43"
 
 //glide
-private const val glideVersion = "4.12.0"
+private const val glideVersion = "4.13.2"
 
 //firebase
 private const val firebaseFuncs = "20.0.0"
 private const val firebaseMsg = "22.0.0"
-private const val firebaseAuthVersion = "21.0.1"
+private const val firebaseAuthVersion = "21.0.6"
 
 //googlePlay
 private const val playAds = "20.2.0"
 private const val googleSrvcs = "4.3.8"
 
 //lifecycle
-private const val lifecycle_version = "2.4.0-alpha03"
+private const val lifecycle_version = "2.5.0"
 
 //coroutines
-private const val coroutines_android_version = "1.5.2"
-private const val coroutines_play_services_version = "1.3.7"
+private const val coroutines_android_version = "1.6.4"
+private const val coroutines_play_services_version = "1.6.4"
 
 //navigationAndroid
-private const val navigation_fragment_version = "2.3.5"
+private const val navigation_fragment_version = "2.5.0"
 
 //jodaTime
-private const val joda_time_version = "2.10.10"
+private const val joda_time_version = "2.10.14"
 
 //worker service
-private const val worker_version = "2.7.0-beta01"
+private const val worker_version = "2.7.1"
+
+//compose
+const val compose_version = "0.1.0-dev14"
+private const val compose_compiler_version = "1.2.0"
+private const val compose_activity_version = "1.5.0"
+private const val compose_lifecycle_version = "2.5.0"
+private const val compose_navigation_version = "2.5.0"
 
 object Dependencies{
     object Android {
@@ -133,6 +140,14 @@ object Dependencies{
         const val workRuntimeKtx = "androidx.work:work-runtime-ktx:$worker_version"
         const val workGcm = "androidx.work:work-gcm:$worker_version"
         const val workMultiprocess = "androidx.work:work-multiprocess:$worker_version"
+    }
+    object Compose {
+        const val compose = "androidx.compose:compose-runtime:$compose_version"
+        const val composeCompiler = "androidx.compose.compiler:compiler:$compose_compiler_version"
+        const val composeActivity = "androidx.activity:activity-compose:$compose_activity_version"
+        const val composeLifecycle = "androidx.lifecycle:lifecycle-viewmodel-compose:$compose_lifecycle_version"
+        const val composeNavigation = "androidx.navigation:navigation-compose:$compose_navigation_version"
+        const val compose_version_obj = compose_compiler_version
     }
 
     @JvmStatic

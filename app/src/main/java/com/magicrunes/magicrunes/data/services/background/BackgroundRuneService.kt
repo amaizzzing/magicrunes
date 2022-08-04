@@ -4,6 +4,7 @@ import android.app.Notification.DEFAULT_ALL
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
+import android.app.PendingIntent
 import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
@@ -70,7 +71,7 @@ class BackgroundRuneService (
         val bitmap = imageService.getRuneBitmap(rune.image, rune.isReverse)
         val titleNotification = applicationContext.getString(R.string.app_name)
         val subtitleNotification = "${applicationContext.getString(R.string.widget_text)} ${rune.name}"
-        val pendingIntent = getActivity(applicationContext, 0, intent, 0)
+        val pendingIntent = getActivity(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL)
             .setLargeIcon(bitmap).setSmallIcon(R.drawable.fortune_icon_32)
             .setContentTitle(titleNotification).setContentText(subtitleNotification)
